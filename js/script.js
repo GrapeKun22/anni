@@ -245,3 +245,152 @@ function animate() {
 }
 
 animate();
+
+// Toggle menu items
+function toggleMenuItem(item) {
+  item.classList.toggle('active');
+  
+  // Close other open items when one is clicked
+  if (item.classList.contains('active')) {
+    document.querySelectorAll('.menu-item').forEach(otherItem => {
+      if (otherItem !== item && otherItem.classList.contains('active')) {
+        otherItem.classList.remove('active');
+      }
+    });
+  }
+  
+  // Add cute bounce animation when opening
+  if (item.classList.contains('active')) {
+    const emoji = item.querySelector('.menu-emoji');
+    emoji.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+      emoji.style.transform = 'scale(1) rotate(15deg)';
+    }, 200);
+  }
+}
+
+// Add hover effects to menu items
+document.querySelectorAll('.menu-item').forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    if (!item.classList.contains('active')) {
+      const emoji = item.querySelector('.menu-emoji');
+      emoji.style.transform = 'translateY(-5px)';
+    }
+  });
+  
+  item.addEventListener('mouseleave', () => {
+    if (!item.classList.contains('active')) {
+      const emoji = item.querySelector('.menu-emoji');
+      emoji.style.transform = 'translateY(0)';
+    }
+  });
+});
+
+// Tabbed Menu Toggle
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabSections = document.querySelectorAll('.tab-section');
+
+if (tabButtons.length > 0) {
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active from all
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabSections.forEach(sec => sec.classList.remove('active'));
+
+      // Add to clicked
+      button.classList.add('active');
+      const target = button.getAttribute('data-tab');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+}
+
+window.addEventListener('scroll', () => {
+  const menuSection = document.querySelector('.tab-menu');
+  const waiter = document.getElementById('waiterImage');
+
+  if (!waiter.classList.contains('waiter-slide-in')) {
+    const rect = menuSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+
+    if (inView) {
+      waiter.classList.add('waiter-slide-in');
+    }
+  }
+});
+
+// Timeline Slideshow
+let currentMonth = 1;
+const totalMonths = 12; // Update this to your actual number of months
+
+// Initialize timeline
+function initTimeline() {
+  // Create month indicators
+  const indicators = document.querySelector('.month-indicators');
+  for (let i = 1; i <= totalMonths; i++) {
+    const indicator = document.createElement('div');
+    indicator.className = 'month-indicator';
+    if (i === 1) indicator.classList.add('active');
+    indicator.dataset.month = i;
+    indicator.addEventListener('click', () => goToMonth(i));
+    indicators.appendChild(indicator);
+  }
+}
+
+// Move to specific month
+function goToMonth(month) {
+  if (month < 1 || month > totalMonths) return;
+  
+  const prevSlide = document.querySelector(`.timeline-slide[data-month="${currentMonth}"]`);
+  const nextSlide = document.querySelector(`.timeline-slide[data-month="${month}"]`);
+  
+  prevSlide.classList.remove('active');
+  prevSlide.classList.add('prev');
+  
+  nextSlide.classList.add('active');
+  nextSlide.classList.remove('prev');
+  
+  // Update indicators
+  document.querySelectorAll('.month-indicator').forEach(ind => {
+    ind.classList.remove('active');
+    if (parseInt(ind.dataset.month) === month) {
+      ind.classList.add('active');
+    }
+  });
+  
+  // Update progress bar
+  document.querySelector('.progress-bar').style.width = `${(month / totalMonths) * 100}%`;
+  
+  currentMonth = month;
+}
+
+// Move slides
+function moveSlide(direction) {
+  goToMonth(currentMonth + direction);
+}
+
+// Auto-advance (optional)
+let slideInterval;
+function startAutoSlide() {
+  slideInterval = setInterval(() => {
+    moveSlide(1);
+    if (currentMonth === totalMonths) {
+      goToMonth(1);
+    }
+  }, 5000);
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  initTimeline();
+  // startAutoSlide(); // Uncomment if you want auto-advancing
+  
+  // Pause auto-slide on hover
+  document.querySelector('.timeline-slides').addEventListener('mouseenter', () => {
+    if (slideInterval) clearInterval(slideInterval);
+  });
+  
+  document.querySelector('.timeline-slides').addEventListener('mouseleave', () => {
+    if (slideInterval) startAutoSlide();
+  });
+});
