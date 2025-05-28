@@ -325,59 +325,101 @@
 </section>
 
 <script>
+const letterText = [
+    "Baby, words are not big enough to describe my love for you...",
+    "You're the sweetest person alive, so kind it feels built-in.",
+    "You're peace and comfort. The first to make me truly happy.",
+    "Your sparkling eyes, laughter, voice, and heart — all perfect.",
+    "Selfishly, I want all of you, forever. Your last everything.",
+    "I'm proud to be yours. I'll protect your smile always.",
+    "You've made me feel like I belong. That's what love is.",
+    "My heart is yours. Forever grateful. Forever BaoBao's.",
+    "You are my treasure. My everything. You are Baby.",
+    "— Love, BaoBao"
+];
+
+let typingTimeout;
+let typewriterRunning = false;
 let isOpen = false;
 
+function typeWriterEffect(lines, elementId, delay = 50) {
+    const el = document.getElementById(elementId);
+    let line = 0, char = 0;
+    el.innerHTML = "";
+    typewriterRunning = true;
+
+    function type() {
+        if (!typewriterRunning) return;
+        if (line < lines.length) {
+            const currentLine = lines[line];
+            if (char < currentLine.length) {
+                el.innerHTML += currentLine.charAt(char);
+                char++;
+                typingTimeout = setTimeout(type, delay);
+            } else {
+                el.innerHTML += "<br><br>";
+                line++;
+                char = 0;
+                typingTimeout = setTimeout(type, 60);
+            }
+        }
+    }
+
+    type();
+}
+
 function openEnvelope() {
+    if (isOpen) return;
+    
     const envelope = document.querySelector('.envelope');
     const letter = document.querySelector('.letter');
-    const closeBtn = document.querySelector('.close-letter');
+    const typewriter = document.getElementById('typewriter');
     
-    if (!isOpen) {
-        envelope.classList.add('open');
-        isOpen = true;
-        
-        // Create floating hearts
-        createHearts();
-        
-        // Show close button after animations complete
-        setTimeout(() => {
-            closeBtn.style.display = 'block';
-            // Make letter content scrollable
-            letter.style.overflowY = 'auto';
-        }, 2000);
-    }
+    envelope.classList.add('open');
+    isOpen = true;
+    
+    // Reset typing and clear previous content
+    typewriterRunning = false;
+    clearTimeout(typingTimeout);
+    typewriter.innerHTML = "";
+    
+    // Start typing after initial animation
+    setTimeout(() => {
+        typeWriterEffect(letterText, 'typewriter');
+    }, 1000);
 }
 
 function closeLetter(e) {
     e.stopPropagation();
+    if (!isOpen) return;
+    
     const envelope = document.querySelector('.envelope');
     const letter = document.querySelector('.letter');
-    const closeBtn = document.querySelector('.close-letter');
     const kissContainer = document.getElementById('kiss-container');
+    const typewriter = document.getElementById('typewriter');
     
-    // Create kiss animation
+    // Stop typing
+    typewriterRunning = false;
+    clearTimeout(typingTimeout);
+    
+    // Reset letter styles with smooth transition
+    letter.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+    letter.style.transform = 'translateY(0) scale(1)';
+    
+    // Kiss animation
     kissContainer.innerHTML = '<div class="kiss-animation">💋</div>';
     
-    // Hide close button
-    closeBtn.style.display = 'none';
-    
-    // Reset letter styles before closing
-    letter.style.animation = 'none';
-    letter.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-    letter.style.height = '180px';
-    letter.style.width = '280px';
-    letter.style.overflow = 'hidden';
-    
-    // Close envelope
+    // Close envelope after letter returns
     setTimeout(() => {
         envelope.classList.remove('open');
         isOpen = false;
+        typewriter.innerHTML = ""; // Clear content
         
         // Remove kiss animation after it plays
         setTimeout(() => {
             kissContainer.innerHTML = '';
         }, 1500);
-    }, 500);
+    }, 800);
 }
 
 function createHearts() {
