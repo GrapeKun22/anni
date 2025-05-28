@@ -307,28 +307,21 @@
 
 <!-- Letter Section -->
 <section id="letter" class="letter-section">
-    <div class="hearts" id="hearts"></div>
-    <div class="envelope" onclick="openEnvelope()">
-        <div class="envelope-front"></div>
-        <div class="envelope-back"></div>
-        <div class="letter">
-            <div class="letter-content">
-                <div class="letter-inner">
-                    <h2>A Letter For YOU! 💌</h2>
-                    <p>Baby, words are not big enough to describe my love for you, nothing can, the things i am going to say come from my soft soft heart that ok DON'T LAUGH. Wah where to begin, BABY, you are the sweetest person alive and i mean it literally your so kind till the point its like programmed in your head. You are also super caring like you always somehow manage to forgive people in the end, hais i envy you. You are also the kind of person whose presence feels like peace and comfort, i can be myself around you. You're the first girl who's ever made me truly happy, and I love you so much for that. Your sparkling eyes, your cutiepie laughter, your cute voice, your style, and your heart they're the most beautiful things to ever exist. People as cheerful and cute as you are as rare as Astatine(rarest thing on earth btw heh)</p>
-                    <p>In the most selfish way possible... I don't want anyone else to have you. Only me can. To have your heart, feel your touch, kiss your lips, or be the reason you smile, I want it all!. I want to be your last everything baby.</p>
-                    <p>I am endlessly proud to be your boyfriend. You're adorable in every emotion like when your happy, pouty, sleepy, chaotic, all of it! And I want to protect that smile of yours every single day no matter what. YOUR SMILE AND YOUR HEART MUST BE PROTECTED!</p>
-                    <p>Every day, I think of you. And every day, I try my best to do whatever it takes to make our dreams come true. You're strong and capable. I know you can take care of yourself. Like what i always say, when things get heavy, I'll always be there to shoulder the weight with you and carry you through the waves of the difficult and cruel world.</p>
-                    <p>You've made me feel like I belong, like I'm safe. You've shown me what love truly is that it is not just the feeling, but the action, the patience, our choices like choosing each other again and again. I've fallen for you all over again, not just for who you are, but for how you love me and will love your harder every second. As we enter a new month, just know my heart is yours,grateful, devoted and ready to take on anything that comes our way</p>
-                    <p>You are my treasure. You are everything. You are Baby. And if you ever forget how incredible you are, I'll be here to remind you.</p>
-                    <p>Love BaoBao.</p>
-                    <p class="closing">Forever yours,<br>[Your Name]</p>
-                </div>
-            </div>
-            <button class="close-letter" onclick="closeLetter(event)">✕</button>
+  <div class="hearts" id="hearts"></div>
+  <div class="envelope" onclick="openEnvelope()">
+    <div class="envelope-back"></div>
+    <div class="envelope-flap"></div>
+    <div class="letter">
+      <div class="letter-content">
+        <div class="letter-inner" id="typewriter">
+          <!-- Typewriter effect will write here -->
         </div>
+      </div>
+      <button class="close-letter" onclick="closeLetter(event)">✕</button>
     </div>
-    <div id="kiss-container"></div>
+  </div>
+  <div id="kiss-container"></div>
+</section>
 </section>
 
 <script>

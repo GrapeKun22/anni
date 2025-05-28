@@ -153,14 +153,15 @@ h1 {
 }
 
 .envelope {
-    width: 300px;
-    height: 200px;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.5s ease;
-    z-index: 1;
-    margin-top: 50px;
+  position: relative;
+  width: 300px;
+  height: 200px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+  z-index: 1;
 }
+
 
 .envelope-front, .envelope-back {
     position: absolute;
@@ -179,9 +180,34 @@ h1 {
 }
 
 .envelope-back {
-    z-index: 1;
-    background: linear-gradient(135deg, #f5a1b3 0%, #f18ba2 100%);
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  background: #f8c3cd;
+  border-radius: 5px;
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 150px solid transparent;
+  border-right: 150px solid transparent;
+  border-top: 100px solid #e88da0; /* darker pink */
+  transform: rotateX(0deg);
+  transform-origin: top center;
+  transition: transform 0.6s ease;
+  z-index: 2;
+}
+
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
 
 .letter {
     position: absolute;
@@ -190,7 +216,7 @@ h1 {
     background: #fff9f5;
     top: 0;
     left: 5%;
-    z-index: 2;
+    z-index: 0;
     border-radius: 5px;
     padding: 20px;
     box-sizing: border-box;
@@ -201,6 +227,11 @@ h1 {
     font-family: 'Playfair Display', serif;
     line-height: 1.6;
     overflow-y: auto;
+}
+.envelope.open .letter {
+  transform: translateY(-50%) scale(1.5);
+  opacity: 1;
+  z-index: 3;
 }
 
 .letter h2 {
@@ -230,10 +261,6 @@ h1 {
     z-index: 0;
 }
 
-.envelope.open .letter {
-    transform: translateY(-50%);
-    opacity: 1;
-}
 
 /* Memory Lane Section */
 .memories {

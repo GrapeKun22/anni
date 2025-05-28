@@ -19,18 +19,73 @@ function toggleMusic() {
     
     isPlaying = !isPlaying;
 }
+const letterText = [
+  "Baby, words are not big enough to describe my love for you...",
+  "You're the sweetest person alive, so kind it feels built-in.",
+  "You're peace and comfort. The first to make me truly happy.",
+  "Your sparkling eyes, laughter, voice, and heart — all perfect.",
+  "Selfishly, I want all of you, forever. Your last everything.",
+  "I’m proud to be yours. I’ll protect your smile always.",
+  "You’ve made me feel like I belong. That’s what love is.",
+  "My heart is yours. Forever grateful. Forever BaoBao’s.",
+  "You are my treasure. My everything. You are Baby.",
+  "— Love, BaoBao"
+];
 
+function typeWriterEffect(lines, elementId, delay = 60) {
+  const el = document.getElementById(elementId);
+  let line = 0, char = 0;
+  el.innerHTML = "";
+
+  function type() {
+    if (line < lines.length) {
+      const currentLine = lines[line];
+      if (char < currentLine.length) {
+        el.innerHTML += currentLine.charAt(char);
+        char++;
+        setTimeout(type, delay);
+      } else {
+        el.innerHTML += "\n";
+        line++;
+        char = 0;
+        setTimeout(type, 300);
+      }
+    }
+  }
+  type();
+}
 // Envelope Functionality
 function openEnvelope() {
     const envelope = document.querySelector('.envelope');
     envelope.classList.toggle('open');
     
     if (envelope.classList.contains('open')) {
+      setTimeout(() => {
+    typeWriterEffect(letterText, 'typewriter');
+  }, 1800);
         envelope.style.cursor = 'default';
         createConfetti();
     }
 }
+function closeLetter(event) {
+  event.stopPropagation();
+  const envelope = document.querySelector('.envelope');
+  const letter = document.getElementById('letterElement');
+  const typewriter = document.getElementById('typewriter');
+  const kissContainer = document.getElementById('kiss-container');
 
+  isTyping = false;
+  clearTimeout(typingTimeout);
+  typewriter.innerHTML = "";
+
+  letter.style.opacity = '0';
+  letter.style.transform = 'translateY(-100%) scale(1)';
+  letter.style.zIndex = '0';
+  envelope.classList.remove('open');
+
+  kissContainer.innerHTML = '<div class="kiss-animation">💋</div>';
+  setTimeout(() => kissContainer.innerHTML = '', 1500);
+}
 // Confetti Effect
 function createConfetti() {
     const confettiCount = 100;
