@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To My Favorite Person ❤️</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:600,700" rel="stylesheet">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Short+Stack&family=Homemade+Apple&family=Zeyada&display=swap'>
+</head>
+<body>
+    <!-- Emoji Rain Background -->
+    <div id="all">
+        <div id="container">
+            <div id="animate"></div>
+        </div>
+    </div>
+
+    <!-- Music Player -->
+    <div class="music-player">
+        <audio id="bgMusic" loop>
+            <source src="audio/利比跳楼机(官方歌词MV)LIBI - Jumping Machine(Official Lyric Video).mp3" type="audio/mp3">
+        </audio>
+        <button id="musicToggle" onclick="toggleMusic()">♫ Play Our Song</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>One Year of Love</h1>
+            <div class="divider"></div>
+            <p class="subtitle">Our Journey Together</p>
+            <div class="heart"></div>
+            <a href="#letter" class="cta-button">Open My Heart</a>
+        </div>
+    </section>
+
+    <!-- Letter Section -->
+    <section id="letter" class="letter-section">
+        <div class="envelope" onclick="openEnvelope()">
+            <div class="envelope-front"></div>
+            <div class="envelope-back"></div>
+            <div class="letter">
+                <h2>A Letter For YOU! 💌</h2>
+                <div class="letter-content">
+                    <p>Baby, words are not big enough to describe my love for you, nothing can, the things i am going to say come from my soft soft heart that ok DON'T LAUGH. Wah where to begin, BABY, you are the sweetest person alive and i mean it literally your so kind till the point its like programmed in your head. You are also super caring like you always somehow manage to forgive people in the end, hais i envy you. You are also the kind of person whose presence feels like peace and comfort, i can be myself around you. You're the first girl who's ever made me truly happy, and I love you so much for that. Your sparkling eyes, your cutiepie laughter, your cute voice, your style, and your heart they're the most beautiful things to ever exist. People as cheerful and cute as you are as rare as Astatine(rarest thing on earth btw heh)</p>
+                    <p>In the most selfish way possible... I don't want anyone else to have you. Only me can. To have your heart, feel your touch, kiss your lips, or be the reason you smile, I want it all!. I want to be your last everything baby.</p>
+                    <p>I am endlessly proud to be your boyfriend. You're adorable in every emotion like when your happy, pouty, sleepy, chaotic, all of it! And I want to protect that smile of yours every single day no matter what. YOUR SMILE AND YOUR HEART MUST BE PROTECTED!</p>
+                    <p>Every day, I think of you. And every day, I try my best to do whatever it takes to make our dreams come true. You're strong and capable. I know you can take care of yourself. Like what i always say, when things get heavy, I'll always be there to shoulder the weight with you and carry you through the waves of the difficult and cruel world.</p>
+                    <p>You've made me feel like I belong, like I'm safe. You've shown me what love truly is that it is not just the feeling, but the action, the patience, our choices like choosing each other again and again. I've fallen for you all over again, not just for who you are, but for how you love me and will love your harder every second. As we enter a new month, just know my heart is yours,grateful, devoted and ready to take on anything that comes our way</p>
+                    <p>You are my treasure. You are everything. You are Baby. And if you ever forget how incredible you are, I'll be here to remind you.</p>
+                    <p>Love BaoBao.</p>
+                </div>
+                <p class="closing">Forever yours,<br>[Your Name]</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memory Lane Section -->
+    <section class="memories">
+        <h2>Our Journey Through Time 💞</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">Month 1</div>
+                <div class="timeline-content">
+                    <h3>Our First Date</h3>
+                    <div class="timeline-photos">
+                        <img src="images/may1.jpg" alt="Our first date">
+                    </div>
+                    <p>Remember when we went to [location]? I was so nervous but you made me feel comfortable immediately.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Month 3</div>
+                <div class="timeline-content">
+                    <h3>Our First Trip</h3>
+                    <div class="timeline-photos">
+                        <img src="images/trip1.jpg" alt="Our first trip">
+                    </div>
+                    <p>That weekend we spent in [location] was magical. I'll never forget [specific memory].</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Draggable Love Notes Section -->
+    <section id="love-notes" class="love-notes">
+        <h2>Our Love Notes</h2>
+        <div class="papers-container">
+            <div class="paper heart"></div>
+            <div class="paper image">
+                <p>and I fallen in</p>
+                <p>Love with You 😍</p>
+                <img src="images/rosy1.jpg" />
+            </div>
+            <div class="paper image">
+                <img src="images/rosy2.jpg" />
+            </div>
+            <div class="paper image">
+                <p>How can be</p>
+                <p>someone so cute ❤️</p>
+                <img src="images/rosy3.jpg" />
+            </div>
+            <div class="paper red">
+                <p class="p1">and My Favorite</p>
+                <p class="p2">Person 😍</p>
+            </div>
+            <div class="paper">
+                <p class="p1">You are Cute</p>
+                <p class="p1">Amazing <span style="color: red !important;">❤️</span></p>
+            </div>
+            <div class="paper">
+                <p class="p1">Drag the papers to move!</p>
+                <p class="p1">Right-click to rotate</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Section -->
+    <section class="future">
+        <h2>Our Future Together</h2>
+        <div class="future-container">
+            <div class="future-card">
+                <h3>Adventures Ahead</h3>
+                <p>Places we'll visit: [List places]</p>
+            </div>
+            <div class="future-card">
+                <h3>Dreams to Share</h3>
+                <p>[Your shared dreams and goals]</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
