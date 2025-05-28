@@ -36,14 +36,285 @@
         </div>
     </section>
 
-    <!-- Letter Section -->
-    <section id="letter" class="letter-section">
-        <div class="envelope" onclick="openEnvelope()">
-            <div class="envelope-front"></div>
-            <div class="envelope-back"></div>
-            <div class="letter">
-                <h2>A Letter For YOU! 💌</h2>
-                <div class="letter-content">
+<style>
+/* Love-themed styles */
+.letter-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+/* Heart-shaped envelope */
+.envelope {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    transform-style: preserve-3d;
+    z-index: 1;
+}
+
+.envelope-front {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 100px solid #f8c3cd;
+    border-right: 150px solid #f8c3cd;
+    border-left: 150px solid #f8c3cd;
+    border-bottom: 100px solid #f8c3cd;
+    border-radius: 5px;
+    transform-origin: top;
+    transition: all 0.5s ease;
+    z-index: 3;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.envelope-front:before {
+    content: '';
+    position: absolute;
+    border-top: 100px solid transparent;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 100px solid #f8c3cd;
+    top: -200px;
+    left: -150px;
+    transform: rotateX(0deg);
+    transform-origin: top;
+    transition: all 0.5s ease;
+    border-radius: 5px;
+}
+
+.envelope-back {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    background: #f8c3cd;
+    border-radius: 5px;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Letter styling */
+.letter {
+    position: absolute;
+    width: 280px;
+    height: 180px;
+    background: #fff9fa;
+    border-radius: 5px;
+    padding: 15px;
+    box-sizing: border-box;
+    z-index: 2;
+    bottom: 10px;
+    left: 10px;
+    transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: bottom;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transform: scale(1) rotate(0deg);
+}
+
+.letter-content {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    transition: all 0.5s ease;
+}
+
+.letter-inner {
+    font-family: 'Courier New', monospace;
+    color: #555;
+    line-height: 1.6;
+    font-size: 12px;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+.letter h2 {
+    color: #ff6b88;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 18px;
+}
+
+.letter-inner p {
+    margin-bottom: 8px;
+}
+
+.closing {
+    text-align: center;
+    font-style: italic;
+    color: #ff6b88;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* When envelope is opened */
+.envelope.open {
+    transform: translateY(-50px);
+}
+
+.envelope.open .envelope-front {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.envelope.open .letter {
+    animation: 
+        letterExit 1s forwards,
+        letterLandscape 0.5s 1s forwards,
+        letterZoom 0.5s 1.5s forwards;
+}
+
+@keyframes letterExit {
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        height: 180px;
+    }
+    100% {
+        transform: translateY(-200px) scale(1) rotate(0deg);
+        height: 180px;
+    }
+}
+
+@keyframes letterZoom {
+    0% {
+        transform: translateY(-50px) scale(1) rotate(0deg);
+        height: 180px;
+        width: 280px;
+    }
+    100% {
+        transform: translateY(-50px) scale(2) rotate(0deg);
+        height: 270px;
+        width: 420px;
+    }
+}
+
+/* When applying the animations */
+.letter-exit {
+    animation: letterExit 1s ease-in-out forwards;
+}
+
+.letter-zoom {
+    animation: letterZoom 1s ease-in-out forwards;
+}
+
+
+/* Close button with kiss animation */
+.close-letter {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #ff6b88;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.close-letter:hover {
+    transform: scale(1.2);
+    background: #ff4757;
+}
+
+.kiss-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    opacity: 0;
+    pointer-events: none;
+    animation: kissFade 1.5s ease;
+}
+
+@keyframes kissFade {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Floating hearts background */
+.hearts {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    color: rgba(255,107,136,0.6);
+    animation: float 8s linear infinite;
+    opacity: 0;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .envelope.open .letter {
+        transform: translateY(-150px) scale(1.3) rotate(90deg);
+    }
+}
+</style>
+
+<!-- Letter Section -->
+<section id="letter" class="letter-section">
+    <div class="hearts" id="hearts"></div>
+    <div class="envelope" onclick="openEnvelope()">
+        <div class="envelope-front"></div>
+        <div class="envelope-back"></div>
+        <div class="letter">
+            <div class="letter-content">
+                <div class="letter-inner">
+                    <h2>A Letter For YOU! 💌</h2>
                     <p>Baby, words are not big enough to describe my love for you, nothing can, the things i am going to say come from my soft soft heart that ok DON'T LAUGH. Wah where to begin, BABY, you are the sweetest person alive and i mean it literally your so kind till the point its like programmed in your head. You are also super caring like you always somehow manage to forgive people in the end, hais i envy you. You are also the kind of person whose presence feels like peace and comfort, i can be myself around you. You're the first girl who's ever made me truly happy, and I love you so much for that. Your sparkling eyes, your cutiepie laughter, your cute voice, your style, and your heart they're the most beautiful things to ever exist. People as cheerful and cute as you are as rare as Astatine(rarest thing on earth btw heh)</p>
                     <p>In the most selfish way possible... I don't want anyone else to have you. Only me can. To have your heart, feel your touch, kiss your lips, or be the reason you smile, I want it all!. I want to be your last everything baby.</p>
                     <p>I am endlessly proud to be your boyfriend. You're adorable in every emotion like when your happy, pouty, sleepy, chaotic, all of it! And I want to protect that smile of yours every single day no matter what. YOUR SMILE AND YOUR HEART MUST BE PROTECTED!</p>
@@ -51,39 +322,90 @@
                     <p>You've made me feel like I belong, like I'm safe. You've shown me what love truly is that it is not just the feeling, but the action, the patience, our choices like choosing each other again and again. I've fallen for you all over again, not just for who you are, but for how you love me and will love your harder every second. As we enter a new month, just know my heart is yours,grateful, devoted and ready to take on anything that comes our way</p>
                     <p>You are my treasure. You are everything. You are Baby. And if you ever forget how incredible you are, I'll be here to remind you.</p>
                     <p>Love BaoBao.</p>
+                    <p class="closing">Forever yours,<br>[Your Name]</p>
                 </div>
-                <p class="closing">Forever yours,<br>[Your Name]</p>
             </div>
+            <button class="close-letter" onclick="closeLetter(event)">✕</button>
         </div>
-    </section>
+    </div>
+    <div id="kiss-container"></div>
+</section>
 
-    <!-- Memory Lane Section -->
-    <section class="memories">
-        <h2>Our Journey Through Time 💞</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-date">Month 1</div>
-                <div class="timeline-content">
-                    <h3>Our First Date</h3>
-                    <div class="timeline-photos">
-                        <img src="images/may1.jpg" alt="Our first date">
-                    </div>
-                    <p>Remember when we went to [location]? I was so nervous but you made me feel comfortable immediately.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">Month 3</div>
-                <div class="timeline-content">
-                    <h3>Our First Trip</h3>
-                    <div class="timeline-photos">
-                        <img src="images/trip1.jpg" alt="Our first trip">
-                    </div>
-                    <p>That weekend we spent in [location] was magical. I'll never forget [specific memory].</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<script>
+let isOpen = false;
+
+function openEnvelope() {
+    const envelope = document.querySelector('.envelope');
+    const letter = document.querySelector('.letter');
+    const closeBtn = document.querySelector('.close-letter');
+    
+    if (!isOpen) {
+        envelope.classList.add('open');
+        isOpen = true;
+        
+        // Create floating hearts
+        createHearts();
+        
+        // Show close button after animations complete
+        setTimeout(() => {
+            closeBtn.style.display = 'block';
+            // Make letter content scrollable
+            letter.style.overflowY = 'auto';
+        }, 2000);
+    }
+}
+
+function closeLetter(e) {
+    e.stopPropagation();
+    const envelope = document.querySelector('.envelope');
+    const letter = document.querySelector('.letter');
+    const closeBtn = document.querySelector('.close-letter');
+    const kissContainer = document.getElementById('kiss-container');
+    
+    // Create kiss animation
+    kissContainer.innerHTML = '<div class="kiss-animation">💋</div>';
+    
+    // Hide close button
+    closeBtn.style.display = 'none';
+    
+    // Reset letter styles before closing
+    letter.style.animation = 'none';
+    letter.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+    letter.style.height = '180px';
+    letter.style.width = '280px';
+    letter.style.overflow = 'hidden';
+    
+    // Close envelope
+    setTimeout(() => {
+        envelope.classList.remove('open');
+        isOpen = false;
+        
+        // Remove kiss animation after it plays
+        setTimeout(() => {
+            kissContainer.innerHTML = '';
+        }, 1500);
+    }, 500);
+}
+
+function createHearts() {
+    const heartsContainer = document.getElementById('hearts');
+    heartsContainer.innerHTML = '';
+    
+    for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '❤';
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        heartsContainer.appendChild(heart);
+    }
+}
+
+// Create some initial hearts
+createHearts();
+</script>
 
     <!-- Draggable Love Notes Section -->
     <section id="love-notes" class="love-notes">
