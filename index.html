@@ -304,7 +304,7 @@ let typingTimeout;
 let typewriterRunning = false;
 let isOpen = false;
 
-function typeWriterEffect(lines, elementId, delay = 50) {
+function typeWriterEffect(lines, elementId, delay = 0) {
     const el = document.getElementById(elementId);
     let line = 0, char = 0;
     el.innerHTML = "";
@@ -403,7 +403,6 @@ function createHearts() {
 // Create some initial hearts
 createHearts();
 </script>
-
     <!-- Draggable Love Notes Section -->
     <section id="love-notes" class="love-notes">
         <h2>Our Love Notes</h2>
@@ -440,10 +439,17 @@ createHearts();
     <!-- Future Section -->
 <section class="carousel-section">
   <div class="carousel-container">
+    <!-- Left Arrow -->
+    <button class="carousel-arrow left-arrow" id="prevBtn"
+        data-normal="images/xbleftnormal.png"
+        data-active="images/xbleftactive.png">
+        <img src="images/xbleftnormal.png" alt="Left">
+    </button>
+
     <div class="carousel-track" id="carouselTrack">
       <div class="carousel-slide">
         <img src="/images/may1.jpg" alt="Image 1">
-        <p class="caption">May 1st </p>
+        <p class="caption">May 1st</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/may2.jpg" alt="Image 2">
@@ -454,8 +460,16 @@ createHearts();
         <p class="caption">May 3rd</p>
       </div>
     </div>
+
+    <!-- Right Arrow -->
+    <button class="carousel-arrow right-arrow" id="nextBtn"
+        data-normal="images/xbrightnormal.png"
+        data-active="images/xbrightactive.png">
+        <img src="images/xbrightnormal.png" alt="Right">
+    </button>
   </div>
 </section>
+
 
 <style>
 .carousel-section {
@@ -464,12 +478,16 @@ createHearts();
   align-items: center;
   background: #fdfdfd;
   padding: 40px 0;
+  position: relative;
+
 }
 
 .carousel-container {
   width: 300px;
   overflow: hidden;
-  position: relative;
+  position: relative; /* required to anchor absolute children */
+  z-index: 1; /* make sure it's not behind something else */
+
 }
 
 .carousel-track {
@@ -480,6 +498,10 @@ createHearts();
 .carousel-slide {
   min-width: 100%;
   text-align: center;
+}
+
+.carousel-arrow {
+  z-index: 10; /* higher than the images */
 }
 
 .carousel-slide img {
@@ -500,15 +522,52 @@ createHearts();
 <script>
 const track = document.getElementById('carouselTrack');
 const slides = document.querySelectorAll('.carousel-slide');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 let currentIndex = 0;
 
-function moveToNextSlide() {
-  currentIndex = (currentIndex + 1) % slides.length;
+function updateCarousel() {
   track.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
 
-setInterval(moveToNextSlide, 2000); // 2-second interval
+prevBtn.addEventListener('click', () => {
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateCarousel();
+  }
+});
+
+nextBtn.addEventListener('click', () => {
+  if (currentIndex < slides.length - 1) {
+    currentIndex++;
+    updateCarousel();
+  }
+});
+
+function handleArrowClick(button, direction) {
+  const img = button.querySelector('img');
+  const normalSrc = button.dataset.normal;
+  const activeSrc = button.dataset.active;
+
+  img.src = activeSrc;
+
+  if (direction === 'prev' && currentIndex > 0) {
+    currentIndex--;
+  } else if (direction === 'next' && currentIndex < slides.length - 1) {
+    currentIndex++;
+  }
+  updateCarousel();
+
+  setTimeout(() => {
+    img.src = normalSrc;
+  }, 200); // revert to normal after 200ms
+}
+
+prevBtn.addEventListener('click', () => handleArrowClick(prevBtn, 'prev'));
+nextBtn.addEventListener('click', () => handleArrowClick(nextBtn, 'next'));
+
 </script>
+
 
 <!-- Tabbed Menu Section -->
     <section class="tab-menu">
@@ -582,7 +641,7 @@ setInterval(moveToNextSlide, 2000); // 2-second interval
   position: relative;
   padding-left: 150px;
   background: #fff0f5;
-  padding-bottom: 40px;
+  padding-bottom: 400px;
   border-radius: 12px;
   max-width: 7000px;
   margin: auto;
@@ -591,16 +650,16 @@ setInterval(moveToNextSlide, 2000); // 2-second interval
 
 .waiter-image {
   position: absolute;
-  top: 30px;
+  top: 145px;
   left: -100%;
-  width: 1200px; /* 10x size */
+  width: 800px; /* 10x size */
   height: auto;
   transition: left 1s ease;
   z-index: 2;
 }
 
 .waiter-slide-in {
-  left: -100px;
+  left: 200px;
 }
 
 h2 {

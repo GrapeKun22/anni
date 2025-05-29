@@ -466,6 +466,8 @@ h1 {
     
     .letter {
         height: 200%;
+        z-index: 999; /* Add this line */
+
     }
     
     .papers-container {
@@ -598,4 +600,36 @@ h1 {
 
 .waiter-slide-in {
   left: 20px; /* slides into view */
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  transition: transform 0.2s ease;
+}
+
+.carousel-arrow:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.left-arrow {
+  left: -10px;
+}
+
+.right-arrow {
+  right: -10px;
+}
+
+.carousel-arrow img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
