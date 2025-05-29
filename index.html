@@ -441,84 +441,261 @@ createHearts();
     </section>
 
     <!-- Future Section -->
-    <section class="future">
-        <h2>Our Future Together</h2>
-        <div class="future-container">
-            <div class="future-card">
-                <h3>Adventures Ahead</h3>
-                <p>Places we'll visit: [List places]</p>
-            </div>
-            <div class="future-card">
-                <h3>Dreams to Share</h3>
-                <p>[Your shared dreams and goals]</p>
-            </div>
-        </div>
-    </section>
-    
+<section class="carousel-section">
+  <div class="carousel-container">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <img src="/images/may1.jpg" alt="Image 1">
+        <p class="caption">May 1st </p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/may2.jpg" alt="Image 2">
+        <p class="caption">May 2nd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/may3.jpg" alt="Image 3">
+        <p class="caption">May 3rd</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.carousel-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fdfdfd;
+  padding: 40px 0;
+}
+
+.carousel-container {
+  width: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  text-align: center;
+}
+
+.carousel-slide img {
+  width: 300px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.caption {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+</style>
+
+<script>
+const track = document.getElementById('carouselTrack');
+const slides = document.querySelectorAll('.carousel-slide');
+let currentIndex = 0;
+
+function moveToNextSlide() {
+  currentIndex = (currentIndex + 1) % slides.length;
+  track.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+setInterval(moveToNextSlide, 2000); // 2-second interval
+</script>
 
 <!-- Tabbed Menu Section -->
     <section class="tab-menu">
-        <img src="images/doraemonwaiter.png" alt="Waiter" class="waiter-image" id="waiterImage">
-        <h2>Menu</h2>
-        <div class="tab-buttons">
-            <button class="tab-button active" data-tab="starters">🍢 Starters</button>
-            <button class="tab-button" data-tab="mains">⚠️ Mains</button>
-            <button class="tab-button" data-tab="desserts">🍮 Desserts</button>
-            <button class="tab-button" data-tab="drinks">🥤 Drinks</button>
+  <img src="images/doraemonwaiter.png" alt="Waiter" class="waiter-image" id="waiterImage">
+  <h2>Menu</h2>
+  <div class="tab-buttons">
+    <button class="tab-button active" data-tab="starters">🍢 Starters</button>
+    <button class="tab-button" data-tab="mains">⚠️ Mains</button>
+    <button class="tab-button" data-tab="desserts">🍮 Desserts</button>
+    <button class="tab-button" data-tab="drinks">🥤 Drinks</button>
+  </div>
+  <div class="tab-content">
+    <div class="tab-section active" id="starters">
+      <div class="menu-box">
+        <div class="item-text">
+          <strong>Fresh Salad</strong>
+          <p>Diced chicken tossed with pineapple salsa, honey, and lime</p>
         </div>
-        <div class="tab-content">
-            <div class="tab-section active" id="starters">
-                <div class="menu-box">
-                  <div class="item-text">
-                    <strong>Fresh Salad</strong>
-                    <p>Diced chicken tossed with pineapple salsa, honey, and lime</p>
-                  </div>
-                  <div class="price">$25.00</div>
-                </div>
-                <div class="menu-box">
-                  <div class="item-text">
-                    <strong>Fennel Apple Salad</strong>
-                    <p>With rocket, feta, grapefruit, and pumpkin seeds</p>
-                  </div>
-                  <div class="price">$9.00</div>
-                </div>
-                <div class="menu-box">
-                  <div class="item-text">
-                    <strong>Caesar Salad</strong>
-                    <p>Lettuce with herb croutons, Grana Padano, egg, and Caesar dressing</p>
-                  </div>
-                  <div class="price">$10.00</div>
-                </div>
-            </div>
-            <div class="tab-section" id="mains">
-                <div class="menu-box">
-                  <div class="item-text">
-                    <strong>Love Pasta</strong>
-                    <p>Creamy truffle mushroom linguine</p>
-                  </div>
-                  <div class="price">$18.00</div>
-                </div>
-            </div>
-            <div class="tab-section" id="desserts">
-                <div class="menu-box">
-                  <div class="item-text">
-                    <strong>Heart Brownie</strong>
-                    <p>Fudge chocolate topped with strawberries</p>
-                  </div>
-                  <div class="price">$6.00</div>
-                </div>
-            </div>
-            <div class="tab-section" id="drinks">
-                <div class="menu-box">
-                  <div class="item-text">
-                    <strong>Rosy Tea</strong>
-                    <p>Our fav floral tea blend</p>
-                  </div>
-                  <div class="price">$5.00</div>
-                </div>
-            </div>
+        <div class="price">$25.00</div>
+      </div>
+      <div class="menu-box">
+        <div class="item-text">
+          <strong>Fennel Apple Salad</strong>
+          <p>With rocket, feta, grapefruit, and pumpkin seeds</p>
         </div>
-    </section>
+        <div class="price">$9.00</div>
+      </div>
+      <div class="menu-box">
+        <div class="item-text">
+          <strong>Caesar Salad</strong>
+          <p>Lettuce with herb croutons, Grana Padano, egg, and Caesar dressing</p>
+        </div>
+        <div class="price">$10.00</div>
+      </div>
+    </div>
+
+    <div class="tab-section" id="mains">
+      <div class="menu-box">
+        <div class="item-text">
+          <strong>Love Pasta</strong>
+          <p>Creamy truffle mushroom linguine</p>
+        </div>
+        <div class="price">$18.00</div>
+      </div>
+    </div>
+
+    <div class="tab-section" id="desserts">
+      <div class="menu-box">
+        <div class="item-text">
+          <strong>Heart Brownie</strong>
+          <p>Fudge chocolate topped with strawberries</p>
+        </div>
+        <div class="price">$6.00</div>
+      </div>
+    </div>
+
+    <div class="tab-section" id="drinks">
+      <div class="menu-box">
+        <div class="item-text">
+          <strong>Rosy Tea</strong>
+          <p>Our fav floral tea blend</p>
+        </div>
+        <div class="price">$5.00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.tab-menu {
+  position: relative;
+  padding-left: 150px;
+  background: #fff0f5;
+  padding-bottom: 40px;
+  border-radius: 12px;
+  max-width: 7000px;
+  margin: auto;
+  overflow-x: hidden;
+}
+
+.waiter-image {
+  position: absolute;
+  top: 30px;
+  left: -100%;
+  width: 1200px; /* 10x size */
+  height: auto;
+  transition: left 1s ease;
+  z-index: 2;
+}
+
+.waiter-slide-in {
+  left: -100px;
+}
+
+h2 {
+  margin: 0;
+  padding: 20px 0 10px;
+  text-align: center;
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: #fbe3e8;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  background-color: #f7cdd8;
+}
+
+.tab-content {
+  padding: 0 20px;
+}
+
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+.menu-box {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.item-text p {
+  margin: 5px 0 0 0;
+  font-size: 0.95rem;
+}
+
+.price {
+  font-weight: bold;
+  color: #e74c3c;
+}
+</style>
+
+<script>
+const tabButtons = document.querySelectorAll(".tab-button");
+const tabSections = document.querySelectorAll(".tab-section");
+const waiter = document.getElementById("waiterImage");
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Update active tab button
+    tabButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    // Update tab section content
+    const target = btn.dataset.tab;
+    tabSections.forEach(section => {
+      section.classList.remove("active");
+      if (section.id === target) {
+        section.classList.add("active");
+      }
+    });
+
+    // Slide Doraemon waiter in
+    waiter.classList.remove("waiter-slide-in");
+    void waiter.offsetWidth; // force reflow to restart animation
+    waiter.classList.add("waiter-slide-in");
+  });
+});
+</script>
+
 
     <script src="js/script.js"></script>
 </body>
