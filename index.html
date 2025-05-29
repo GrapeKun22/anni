@@ -37,7 +37,7 @@
     </section>
 
 <style>
-/* Love-themed styles */
+/* Love-themed styles with optimized animations */
 .letter-section {
     display: flex;
     justify-content: center;
@@ -48,50 +48,23 @@
     position: relative;
     overflow: hidden;
     perspective: 1000px;
+    will-change: transform, opacity;
 }
 
-/* Heart-shaped envelope */
+/* Heart-shaped envelope with GPU acceleration */
 .envelope {
     position: relative;
     width: 300px;
     height: 200px;
     cursor: pointer;
-    transition: all 0.5s ease;
+    transition: transform 0.5s ease-out;
     transform-style: preserve-3d;
     z-index: 1;
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
-.envelope-front {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-top: 100px solid #f8c3cd;
-    border-right: 150px solid #f8c3cd;
-    border-left: 150px solid #f8c3cd;
-    border-bottom: 100px solid #f8c3cd;
-    border-radius: 5px;
-    transform-origin: top;
-    transition: all 0.5s ease;
-    z-index: 3;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-.envelope-front:before {
-    content: '';
-    position: absolute;
-    border-top: 100px solid transparent;
-    border-left: 150px solid transparent;
-    border-right: 150px solid transparent;
-    border-bottom: 100px solid #f8c3cd;
-    top: -200px;
-    left: -150px;
-    transform: rotateX(0deg);
-    transform-origin: top;
-    transition: all 0.5s ease;
-    border-radius: 5px;
-}
-
-.envelope-back {
+.envelope-base {
     position: absolute;
     width: 300px;
     height: 200px;
@@ -99,9 +72,26 @@
     border-radius: 5px;
     z-index: 1;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    backface-visibility: hidden;
 }
 
-/* Letter styling */
+.envelope-flap {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 100px solid #e88da0;
+    transform-origin: top;
+    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    z-index: 3;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+/* Optimized letter animations */
 .letter {
     position: absolute;
     width: 280px;
@@ -110,21 +100,23 @@
     border-radius: 5px;
     padding: 15px;
     box-sizing: border-box;
-    z-index: 2;
     bottom: 10px;
     left: 10px;
-    transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    transform-origin: bottom;
+    transition: none;
+    transform-origin: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     transform: scale(1) rotate(0deg);
+    backface-visibility: hidden;
+    will-change: transform, height, width;
+    cursor: pointer;
 }
 
 .letter-content {
     position: relative;
     height: 100%;
     width: 100%;
-    transition: all 0.5s ease;
+    will-change: transform;
 }
 
 .letter-inner {
@@ -134,7 +126,7 @@
     font-size: 12px;
     height: 100%;
     overflow: hidden;
-    transition: all 0.5s ease;
+    will-change: transform;
 }
 
 .letter h2 {
@@ -150,11 +142,38 @@
 }
 
 .closing {
-    text-align: center;
+    text-align: right;
     font-style: italic;
     color: #ff6b88;
     margin-top: 10px;
     font-weight: bold;
+}
+
+/* High-performance animations */
+@keyframes letterExit {
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        height: 180px;
+        width: 280px;
+    }
+    100% {
+        transform: translateY(-100px) scale(1) rotate(0deg);
+        height: 180px;
+        width: 280px;
+    }
+}
+
+@keyframes letterZoom {
+    0% {
+        transform: translateY(-100px) scale(1) rotate(0deg);
+        height: 180px;
+        width: 280px;
+    }
+    100% {
+        transform: translateY(-100px) scale(2.5) rotate(0deg);
+        height: 180px;
+        width: 280px;
+    }
 }
 
 /* When envelope is opened */
@@ -162,75 +181,18 @@
     transform: translateY(-50px);
 }
 
-.envelope.open .envelope-front {
+.envelope.open .envelope-flap {
     transform: rotateX(180deg);
     z-index: 0;
 }
 
 .envelope.open .letter {
     animation: 
-        letterExit 1s forwards,
-        letterLandscape 0.5s 1s forwards,
-        letterZoom 0.5s 1.5s forwards;
+        letterExit 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards,
+        letterZoom 0.6s 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
 
-@keyframes letterExit {
-    0% {
-        transform: translateY(0) scale(1) rotate(0deg);
-        height: 180px;
-    }
-    100% {
-        transform: translateY(-200px) scale(1) rotate(0deg);
-        height: 180px;
-    }
-}
-
-@keyframes letterZoom {
-    0% {
-        transform: translateY(-50px) scale(1) rotate(0deg);
-        height: 180px;
-        width: 280px;
-    }
-    100% {
-        transform: translateY(-50px) scale(2) rotate(0deg);
-        height: 270px;
-        width: 420px;
-    }
-}
-
-/* When applying the animations */
-.letter-exit {
-    animation: letterExit 1s ease-in-out forwards;
-}
-
-.letter-zoom {
-    animation: letterZoom 1s ease-in-out forwards;
-}
-
-
-/* Close button with kiss animation */
-.close-letter {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: #ff6b88;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
-    cursor: pointer;
-    display: none;
-    z-index: 10;
-    transition: all 0.3s ease;
-}
-
-.close-letter:hover {
-    transform: scale(1.2);
-    background: #ff4757;
-}
-
+/* GPU-accelerated kiss animation */
 .kiss-animation {
     position: absolute;
     width: 100%;
@@ -244,19 +206,21 @@
     opacity: 0;
     pointer-events: none;
     animation: kissFade 1.5s ease;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 @keyframes kissFade {
     0% {
-        transform: scale(0.5);
+        transform: scale(0.5) translateZ(0);
         opacity: 0;
     }
     50% {
-        transform: scale(1.2);
+        transform: scale(1.2) translateZ(0);
         opacity: 1;
     }
     100% {
-        transform: scale(1.5);
+        transform: scale(1.5) translateZ(0);
         opacity: 0;
     }
 }
@@ -300,7 +264,9 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .envelope.open .letter {
-        transform: translateY(-150px) scale(1.3) rotate(90deg);
+        animation: 
+            letterExit 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards,
+            letterZoom 0.6s 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
     }
 }
 </style>
@@ -308,83 +274,114 @@
 <!-- Letter Section -->
 <section id="letter" class="letter-section">
     <div class="hearts" id="hearts"></div>
-    <div class="envelope" onclick="openEnvelope()">
-        <div class="envelope-front"></div>
-        <div class="envelope-back"></div>
-        <div class="letter">
+    <div class="envelope" onclick="!isOpen && openEnvelope()">
+        <div class="envelope-base"></div>
+        <div class="envelope-flap"></div>
+        <div class="letter" onclick="closeLetter(event)">
             <div class="letter-content">
-                <div class="letter-inner">
-                    <h2>A Letter For YOU! 💌</h2>
-                    <p>Baby, words are not big enough to describe my love for you, nothing can, the things i am going to say come from my soft soft heart that ok DON'T LAUGH. Wah where to begin, BABY, you are the sweetest person alive and i mean it literally your so kind till the point its like programmed in your head. You are also super caring like you always somehow manage to forgive people in the end, hais i envy you. You are also the kind of person whose presence feels like peace and comfort, i can be myself around you. You're the first girl who's ever made me truly happy, and I love you so much for that. Your sparkling eyes, your cutiepie laughter, your cute voice, your style, and your heart they're the most beautiful things to ever exist. People as cheerful and cute as you are as rare as Astatine(rarest thing on earth btw heh)</p>
-                    <p>In the most selfish way possible... I don't want anyone else to have you. Only me can. To have your heart, feel your touch, kiss your lips, or be the reason you smile, I want it all!. I want to be your last everything baby.</p>
-                    <p>I am endlessly proud to be your boyfriend. You're adorable in every emotion like when your happy, pouty, sleepy, chaotic, all of it! And I want to protect that smile of yours every single day no matter what. YOUR SMILE AND YOUR HEART MUST BE PROTECTED!</p>
-                    <p>Every day, I think of you. And every day, I try my best to do whatever it takes to make our dreams come true. You're strong and capable. I know you can take care of yourself. Like what i always say, when things get heavy, I'll always be there to shoulder the weight with you and carry you through the waves of the difficult and cruel world.</p>
-                    <p>You've made me feel like I belong, like I'm safe. You've shown me what love truly is that it is not just the feeling, but the action, the patience, our choices like choosing each other again and again. I've fallen for you all over again, not just for who you are, but for how you love me and will love your harder every second. As we enter a new month, just know my heart is yours,grateful, devoted and ready to take on anything that comes our way</p>
-                    <p>You are my treasure. You are everything. You are Baby. And if you ever forget how incredible you are, I'll be here to remind you.</p>
-                    <p>Love BaoBao.</p>
-                    <p class="closing">Forever yours,<br>[Your Name]</p>
-                </div>
+                <div class="letter-inner" id="typewriter"></div>
             </div>
-            <button class="close-letter" onclick="closeLetter(event)">✕</button>
         </div>
     </div>
     <div id="kiss-container"></div>
 </section>
 
 <script>
+const letterText = [
+    "Baby, words are not big enough to describe my love for you...",
+    "You're the sweetest person alive, so kind it feels built-in.",
+    "You're peace and comfort. The first to make me truly happy.",
+    "Your sparkling eyes, laughter, voice, and heart — all perfect.",
+    "Selfishly, I want all of you, forever. Your last everything.",
+    "I'm proud to be yours. I'll protect your smile always.",
+    "You've made me feel like I belong. That's what love is.",
+    "My heart is yours. Forever grateful. Forever BaoBao's.",
+    "You are my treasure. My everything. You are Baby.",
+    "— Love, BaoBao"
+];
+
+let typingTimeout;
+let typewriterRunning = false;
 let isOpen = false;
 
+function typeWriterEffect(lines, elementId, delay = 50) {
+    const el = document.getElementById(elementId);
+    let line = 0, char = 0;
+    el.innerHTML = "";
+    typewriterRunning = true;
+
+    function type() {
+        if (!typewriterRunning) return;
+        if (line < lines.length) {
+            const currentLine = lines[line];
+            if (char < currentLine.length) {
+                el.innerHTML += currentLine.charAt(char);
+                char++;
+                typingTimeout = setTimeout(type, delay);
+            } else {
+                el.innerHTML += "<br><br>";
+                line++;
+                char = 0;
+                typingTimeout = setTimeout(type, 60);
+            }
+        }
+    }
+
+    type();
+}
+
 function openEnvelope() {
+    if (isOpen) return;
+    
     const envelope = document.querySelector('.envelope');
     const letter = document.querySelector('.letter');
-    const closeBtn = document.querySelector('.close-letter');
+    const typewriter = document.getElementById('typewriter');
     
-    if (!isOpen) {
-        envelope.classList.add('open');
-        isOpen = true;
-        
-        // Create floating hearts
-        createHearts();
-        
-        // Show close button after animations complete
-        setTimeout(() => {
-            closeBtn.style.display = 'block';
-            // Make letter content scrollable
-            letter.style.overflowY = 'auto';
-        }, 2000);
-    }
+    envelope.classList.add('open');
+    isOpen = true;
+    
+    // Reset typing and clear previous content
+    typewriterRunning = false;
+    clearTimeout(typingTimeout);
+    typewriter.innerHTML = "";
+    
+    // Start typing after initial animation
+    setTimeout(() => {
+        typeWriterEffect(letterText, 'typewriter');
+    }, 1000);
 }
 
 function closeLetter(e) {
     e.stopPropagation();
+    if (!isOpen) return;
+    
     const envelope = document.querySelector('.envelope');
     const letter = document.querySelector('.letter');
-    const closeBtn = document.querySelector('.close-letter');
     const kissContainer = document.getElementById('kiss-container');
+    const typewriter = document.getElementById('typewriter');
     
-    // Create kiss animation
+    // Stop typing
+    typewriterRunning = false;
+    clearTimeout(typingTimeout);
+    
+    // Reset letter styles with smooth transition
+    letter.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+    letter.style.transform = 'translateY(0) scale(1)';
+    
+    // Kiss animation
     kissContainer.innerHTML = '<div class="kiss-animation">💋</div>';
     
-    // Hide close button
-    closeBtn.style.display = 'none';
-    
-    // Reset letter styles before closing
-    letter.style.animation = 'none';
-    letter.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-    letter.style.height = '180px';
-    letter.style.width = '280px';
-    letter.style.overflow = 'hidden';
-    
-    // Close envelope
+    // Close envelope after letter returns
     setTimeout(() => {
         envelope.classList.remove('open');
         isOpen = false;
+        typewriter.innerHTML = ""; // Clear content
         
         // Remove kiss animation after it plays
         setTimeout(() => {
             kissContainer.innerHTML = '';
         }, 1500);
-    }, 500);
+    }, 800);
 }
 
 function createHearts() {
