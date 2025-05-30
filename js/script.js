@@ -1,66 +1,76 @@
 const audio = document.getElementById('audio');
-  const playlist = document.getElementById('playlist');
-  const playPauseBtn = document.getElementById('playPauseBtn');
-  const tracks = playlist.querySelectorAll('li');
-  let currentTrackIndex = 0;
+const playlist = document.getElementById('playlist');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const tracks = playlist.querySelectorAll('li');
+const musicToggle = document.getElementById('musicToggle');
+const musicDropdown = document.getElementById('musicDropdown');
+const playIcon = document.getElementById('playIcon');
+const pauseIcon = document.getElementById('pauseIcon');
+
+
+let currentTrackIndex = 0;
 let isPlaying = false;
 
-function toggleMusic() {
-    const toggleBtn = document.getElementById('musicToggle');
-    
-    if (isPlaying) {
-        bgMusic.pause();
-        toggleBtn.textContent = '♫ Play Our Song';
-    } else {
-        bgMusic.play().catch(e => {
-            toggleBtn.textContent = 'Click to Play';
-            console.log("Audio playback prevented:", e);
-        });
-        toggleBtn.textContent = '♫ Pause Music';
-    }
-    
-    isPlaying = !isPlaying;
-}
-  // Initialize audio with first track
-  audio.src = tracks[currentTrackIndex].dataset.src;
+// Initialize audio with first track
+audio.src = tracks[currentTrackIndex].dataset.src;
+updateActiveTrack(currentTrackIndex);
 
-  // Update UI active class
- function updateActiveTrack(index) {
+// Toggle dropdown visibility when main button clicked
+musicToggle.addEventListener('click', () => {
+  musicDropdown.classList.toggle('hidden');
+});
+
+// Update active track UI
+function updateActiveTrack(index) {
   tracks.forEach((track, i) => {
     track.classList.toggle('active', i === index);
   });
 }
 
-// Initialize - check if user has interacted before playing music
-document.addEventListener('click', () => {
-  if (!isPlaying && audio.paused) {
-    console.log("User interacted — music can now play");
-    // Optionally, you can auto play here or just unlock controls
-  }
-});
-
-playlist.addEventListener('click', (e) => {
-  if (e.target.tagName === 'LI') {
-    playTrack([...tracks].indexOf(e.target));
-  }
-});
-
-  // Play/pause button controls current song
-  playPauseBtn.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  });
-  function playTrack(index) {
+// Play a specific track by index
+function playTrack(index) {
   currentTrackIndex = index;
   audio.src = tracks[index].dataset.src;
   updateActiveTrack(index);
   audio.play();
   isPlaying = true;
+  updatePlayPauseButton();
 }
-  // Auto play next track when current ends
+
+// Play/pause toggle button handler
+playPauseBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    isPlaying = true;
+  } else {
+    audio.pause();
+    isPlaying = false;
+  }
+  updatePlayPauseButton();
+});
+
+function updatePlayPauseButton() {
+  if (isPlaying) {
+    playIcon.classList.add('d-none');
+    pauseIcon.classList.remove('d-none');
+    playPauseBtn.title = 'Pause';
+  } else {
+    playIcon.classList.remove('d-none');
+    pauseIcon.classList.add('d-none');
+    playPauseBtn.title = 'Play';
+  }
+}
+
+
+// Playlist item click handler
+playlist.addEventListener('click', (e) => {
+  if (e.target.tagName === 'LI') {
+    const index = [...tracks].indexOf(e.target);
+    playTrack(index);
+  }
+});
+
+// Auto play next track when current ends
 audio.addEventListener('ended', () => {
   currentTrackIndex++;
   if (currentTrackIndex >= tracks.length) {
@@ -68,6 +78,9 @@ audio.addEventListener('ended', () => {
   }
   playTrack(currentTrackIndex);
 });
+
+// Optional: Initialize play/pause button text
+updatePlayPauseButton();
 
 // Draggable Papers with collision detection (single global mousemove listener)
 let highestZ = 1;

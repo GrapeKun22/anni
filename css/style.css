@@ -409,31 +409,235 @@ h1 {
     margin-top: 0;
 }
 
-/* Music Player */
-.music-player {
+
+  .music-player {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 100;
-}
-
-#musicToggle {
-    background-color: #d23669;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
-    cursor: pointer;
+    bottom: 25px;
+    right: 25px;
+    width: 280px;
     font-family: 'Montserrat', sans-serif;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-    font-size: 1rem;
+    user-select: none;
+    z-index: 9999;
+  }
+
+  #musicToggle {
+    background: linear-gradient(135deg, #d23669 0%, #ff6b88 100%);
+    border: none;
+    border-radius: 50px;
+    color: rgb(215, 215, 215);
+    padding: 14px 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 6px 15px rgba(210, 54, 105, 0.4);
+    transition: background 0.3s ease;
+  }
+
+  #musicToggle:hover {
+    background: linear-gradient(135deg, #a51c4a 0%, #d23669 100%);
+  }
+
+  #musicToggle .arrow {
+    transition: transform 0.3s ease;
+  }
+
+  #musicToggle.active .arrow {
+    transform: rotate(180deg);
+  }
+
+  .music-dropdown {
+    background: #fff0f5;
+    margin-top: 10px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(210, 54, 105, 0.3);
+    padding: 15px 20px;
+    max-height: 350px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #playlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    max-height: 140px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 8px rgba(210,54,105,0.2);
+  }
+
+  #playlist li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f7cdd8;
+    transition: background-color 0.2s ease;
+    color: #6e2e4a;
+    font-weight: 500;
+  }
+
+  #playlist li:hover {
+    background-color: #ffdae3;
+    color: #000000;
+    border: #d23669 1px;
+  }
+
+  #playlist li.active {
+    background: #d23669;
+    color: white;
+    font-weight: 700;
+  }
+
+  .controls {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .control-btn {
+    background: #d23669;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(210,54,105,0.4);
+    transition: background 0.3s ease;
+  }
+
+  .control-btn:hover {
+    background: #a51c4a;
+  }
+
+  .control-btn svg {
+    pointer-events: none;
+  }
+
+  .progress-container {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-#musicToggle:hover {
-    background-color: #a51c4a;
-    transform: scale(1.05);
+#currentTime, #duration {
+  font-size: 0.9rem;
+  color: #d23669;
+  width: 35px;
+  text-align: center;
 }
+
+#progressBar {
+  flex-grow: 1;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 5px;
+  background: #fbe3e8;
+  outline: none;
+}
+
+/* Progress slider thumb styling */
+#progressBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d23669;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(210,54,105,0.8);
+  transition: background 0.3s ease;
+}
+
+#progressBar::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d23669;
+  cursor: pointer;
+}
+
+/* Small play/pause button */
+.small-play-pause {
+  background-color: #d23669;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(210,54,105,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+.small-play-pause:hover {
+  background-color: #a51c4a;
+}
+
+
+  .volume-container {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .volume-icon {
+    fill: #d23669;
+  }
+
+  #volumeSlider {
+    flex-grow: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #fbe3e8;
+    outline: none;
+  }
+
+  #volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #d23669;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(210,54,105,0.8);
+    transition: background 0.3s ease;
+  }
+
+  #volumeSlider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #d23669;
+    cursor: pointer;
+  }
+
+
+
 
 /* Confetti Animation */
 @keyframes fall {
