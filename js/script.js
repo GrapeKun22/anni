@@ -1,5 +1,8 @@
-// Music Player Functionality
-const bgMusic = document.getElementById('bgMusic');
+const audio = document.getElementById('audio');
+  const playlist = document.getElementById('playlist');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const tracks = playlist.querySelectorAll('li');
+  let currentTrackIndex = 0;
 let isPlaying = false;
 
 function toggleMusic() {
@@ -18,23 +21,53 @@ function toggleMusic() {
     
     isPlaying = !isPlaying;
 }
+  // Initialize audio with first track
+  audio.src = tracks[currentTrackIndex].dataset.src;
 
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
+  // Update UI active class
+ function updateActiveTrack(index) {
+  tracks.forEach((track, i) => {
+    track.classList.toggle('active', i === index);
+  });
+}
 
 // Initialize - check if user has interacted before playing music
-document.addEventListener('click', function() {
-    if (!isPlaying && bgMusic.paused) {
-        console.log("Page interacted with, music can now play");
+document.addEventListener('click', () => {
+  if (!isPlaying && audio.paused) {
+    console.log("User interacted — music can now play");
+    // Optionally, you can auto play here or just unlock controls
+  }
+});
+
+playlist.addEventListener('click', (e) => {
+  if (e.target.tagName === 'LI') {
+    playTrack([...tracks].indexOf(e.target));
+  }
+});
+
+  // Play/pause button controls current song
+  playPauseBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
     }
-}, { once: true });
+  });
+  function playTrack(index) {
+  currentTrackIndex = index;
+  audio.src = tracks[index].dataset.src;
+  updateActiveTrack(index);
+  audio.play();
+  isPlaying = true;
+}
+  // Auto play next track when current ends
+audio.addEventListener('ended', () => {
+  currentTrackIndex++;
+  if (currentTrackIndex >= tracks.length) {
+    currentTrackIndex = 0; // Loop to start
+  }
+  playTrack(currentTrackIndex);
+});
 
 // Draggable Papers with collision detection (single global mousemove listener)
 let highestZ = 1;
