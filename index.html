@@ -767,177 +767,12 @@ createHearts();
         </div>
     </section>
 
-    <!-- Future Section -->
-<section class="carousel-section">
-  <div class="carousel-container">
-    <!-- Left Arrow -->
-    <button class="carousel-arrow left-arrow" id="prevBtn"
-        data-normal="images/xbleftnormal.png"
-        data-active="images/xbleftactive.png">
-        <img src="images/xbleftnormal.png" alt="Left">
-    </button>
-
-    <div class="carousel-track" id="carouselTrack">
-      <div class="carousel-slide">
-        <img src="/images/may.jpg" alt="Image 1">
-        <p class="caption">May 1st</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/june.jpg" alt="Image 2">
-        <p class="caption">May 2nd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/july.jpg" alt="Image 3">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/aug.jpg" alt="Image 4">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/sep.jpg" alt="Image 5">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/oct.jpg" alt="Image 6">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/nov.jpg" alt="Image 7">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/dec.jpg" alt="Image 8">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/jan.jpg" alt="Image 9">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/feb.jpg" alt="Image 10">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/march.jpg" alt="Image 11">
-        <p class="caption">May 3rd</p>
-      </div>
-      <div class="carousel-slide">
-        <img src="/images/april.jpg" alt="Image 12">
-        <p class="caption">May 3rd</p>
-      </div>
-    </div>
-
-    <!-- Right Arrow -->
-    <button class="carousel-arrow right-arrow" id="nextBtn"
-        data-normal="images/xbrightnormal.png"
-        data-active="images/xbrightactive.png">
-        <img src="images/xbrightnormal.png" alt="Right">
-    </button>
-  </div>
-</section>
-
-
-<style>
-.carousel-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fdfdfd;
-  padding: 40px 0; padding-top: 300px;
-}
-
-.carousel-container {
-  width: 300px;
-  overflow: hidden;
-  position: relative; /* required to anchor absolute children */
-  z-index: 1; /* make sure it's not behind something else */
-
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-.carousel-slide {
-  min-width: 100%;
-  text-align: center;
-}
-
-.carousel-arrow {
-  z-index: 10; /* higher than the images */
-}
-
-.carousel-slide img {
-  width: 300px;
-  height: 450px;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.caption {
-  margin-top: 10px;
-  font-size: 1rem;
-  color: #333;
-}
-</style>
-
-<script>
-const track = document.getElementById('carouselTrack');
-const slides = document.querySelectorAll('.carousel-slide');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-let currentIndex = 0;
-
-function updateCarousel() {
-  track.style.transform = `translateX(-${currentIndex * 100}%)`;
-}
-
-prevBtn.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateCarousel();
-  }
-});
-
-nextBtn.addEventListener('click', () => {
-  if (currentIndex < slides.length - 1) {
-    currentIndex++;
-    updateCarousel();
-  }
-});
-
-function handleArrowClick(button, direction) {
-  const img = button.querySelector('img');
-  const normalSrc = button.dataset.normal;
-  const activeSrc = button.dataset.active;
-
-  img.src = activeSrc;
-
-  if (direction === 'prev' && currentIndex > 0) {
-    currentIndex--;
-  } else if (direction === 'next' && currentIndex < slides.length - 1) {
-    currentIndex++;
-  }
-  updateCarousel();
-
-  setTimeout(() => {
-    img.src = normalSrc;
-  }, 200); // revert to normal after 200ms
-}
-
-prevBtn.addEventListener('click', () => handleArrowClick(prevBtn, 'prev'));
-nextBtn.addEventListener('click', () => handleArrowClick(nextBtn, 'next'));
-
-</script>
-
-
-<!-- Tabbed Menu Section -->
+   <!-- Tabbed Menu Section -->
 <section class="tab-menu">
   <img src="images/doraemonwaiter.png" alt="Waiter" class="waiter-image" id="waiterImage">
   <h2>Menu</h2>
+
+  <!-- Tab Buttons -->
   <div class="tab-buttons">
     <button class="tab-button active" data-tab="starters">🍢 Starters</button>
     <button class="tab-button" data-tab="mains">⚠️ Mains</button>
@@ -945,356 +780,367 @@ nextBtn.addEventListener('click', () => handleArrowClick(nextBtn, 'next'));
     <button class="tab-button" data-tab="drinks">🥤 Drinks</button>
   </div>
 
+  <!-- Tab Content -->
   <div class="tab-content">
 
-    <!-- Starters Section -->
-<div class="tab-section active" id="starters">
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Meet at beauty world🤩</strong>
-      <p>My present to you!</p>
+    <div class="tab-section active" id="starters">
+      <div class="menu-box" data-name="Meet at beauty world🤩" data-desc="My present to you!" data-price="12.00pm - 2.00pm">
+        <div class="item-text">
+          <strong>Meet at beauty world🤩</strong>
+          <p>My present to you!</p>
+        </div>
+        <div class="price">12.00pm - 2.00pm</div>
+      </div>
+      <div class="menu-box" data-name="Lunch time!😗" data-desc="At beauty world" data-price="2.00pm - 3.00pm">
+        <div class="item-text">
+          <strong>Lunch time!😗</strong>
+          <p>At beauty world</p>
+        </div>
+        <div class="price">2.00pm - 3.00pm</div>
+      </div>
+      <div class="menu-box" data-name="To vivo city!😍" data-desc="Beauty world to HarbourFront" data-price="3.00pm - 4.00pm">
+        <div class="item-text">
+          <strong>To vivo city!😍</strong>
+          <p>Beauty world to HarbourFront</p>
+        </div>
+        <div class="price">3.00pm - 4.00pm</div>
+      </div>
+      <div class="menu-box" data-name="To the beach!🥰" data-desc="Taking train to beach station" data-price="4.00pm - 4.30pm">
+        <div class="item-text">
+          <strong>To the beach!🥰</strong>
+          <p>Taking train to beach station</p>
+        </div>
+        <div class="price">4.00pm - 4.30pm</div>
+      </div>
+      <div class="menu-box" data-name="Enjoy the beach😎" data-desc="Feel the breeze feel the heat and vibeee" data-price="4.30pm - 7.30pm">
+        <div class="item-text">
+          <strong>Enjoy the beach😎</strong>
+          <p>Feel the breeze feel the heat and vibeee</p>
+        </div>
+        <div class="price">4.30pm - 7.30pm</div>
+      </div>
+      <div class="menu-box" data-name="Back to the Mall🥹" data-desc="Taking train back to the mall" data-price="7.30pm - 7.45pm">
+        <div class="item-text">
+          <strong>Back to the Mall🥹</strong>
+          <p>Taking train back to the mall</p>
+        </div>
+        <div class="price">7.30pm - 7.45pm</div>
+      </div>
+      <div class="menu-box" data-name="Dinner time!🤤" data-desc="Dinner time at Vivocity" data-price="7.45pm - 8.30pm">
+        <div class="item-text">
+          <strong>Dinner time!🤤</strong>
+          <p>Dinner time at Vivocity</p>
+        </div>
+        <div class="price">7.45pm - 8.30pm</div>
+      </div>
+      <div class="menu-box" data-name="Shopping/Walking around the Mall😁" data-desc="Spending Quality time together" data-price="8.30pm - 9.00pm">
+        <div class="item-text">
+          <strong>Shopping/Walking around the Mall😁</strong>
+          <p>Spending Quality time together</p>
+        </div>
+        <div class="price">8.30pm - 9.00pm</div>
+      </div>
+      <div class="menu-box" data-name="Ending 😔" data-desc="Go home time" data-price="9.00pm - 10.00pm">
+        <div class="item-text">
+          <strong>Ending 😔</strong>
+          <p>Go home time</p>
+        </div>
+        <div class="price">9.00pm - 10.00pm</div>
+      </div>
     </div>
-    <div class="price">12.00pm - 2.00pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Lunch time!😗</strong>
-      <p>At beauty world</p>
-    </div>
-    <div class="price">2.00pm - 3.00pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>To vivo city!😍</strong>
-      <p>Beauty world to HarbourFront</p>
-    </div>
-    <div class="price">3.00pm - 4.00pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>To the beach!🥰</strong>
-      <p>Taking train to beach station</p>
-    </div>
-    <div class="price">4.00pm - 4.30pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Enjoy the beach😎</strong>
-      <p>Feel the breeze feel the heat and vibeee</p>
-    </div>
-    <div class="price">4.30pm - 7.30pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Back to the Mall🥹</strong>
-      <p>Taking train back to the mall</p>
-    </div>
-    <div class="price">7.30pm - 7.45pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Dinner time!🤤</strong>
-      <p>Dinner time at Vivocity</p>
-    </div>
-    <div class="price">7.45pm - 8.30pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Shopping/Walking around the Mall😁</strong>
-      <p>Spending Quality time together</p>
-    </div>
-    <div class="price">8.30pm - 9.00pm</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Ending 😔</strong>
-      <p>Go home time</p>
-    </div>
-    <div class="price">9.00pm - 10.00pm</div>
-  </div>
-</div>
 
-<!-- Mains Section -->
-<div class="tab-section" id="mains">
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Presents!</strong>
-      <p>Bao Bao is going to show baby the website and give her presents😁</p>
+    <div class="tab-section" id="mains">
+      <div class="menu-box" data-name="Presents!" data-desc="Bao Bao is going to show baby the website and give her presents😁" data-price="Website, gifts">
+        <div class="item-text">
+          <strong>Presents!</strong>
+          <p>Bao Bao is going to show baby the website and give her presents😁</p>
+        </div>
+        <div class="price">Website, gifts</div>
+      </div>
+      <div class="menu-box" data-name="Picnic food" data-desc="Picking out picnic food" data-price="sushi, chips, drinks, old chang kee, potato corner">
+        <div class="item-text">
+          <strong>Picnic food</strong>
+          <p>Picking out picnic food</p>
+        </div>
+        <div class="price">sushi, chips, drinks, old chang kee, potato corner</div>
+      </div>
+      <div class="menu-box" data-name="Beach activities" data-desc="Frisbee,Enjoy the scenery, Pictures and more" data-price="sun water sand wind">
+        <div class="item-text">
+          <strong>Beach activities</strong>
+          <p>Frisbee,Enjoy the scenery, Pictures and more</p>
+        </div>
+        <div class="price">sun water sand wind</div>
+      </div>
+      <div class="menu-box" data-name="Pokemon pack" data-desc="Bao Bao wants to open his first ever pokemon packs with baby😁" data-price="Get EX">
+        <div class="item-text">
+          <strong>Pokemon pack</strong>
+          <p>Bao Bao wants to open his first ever pokemon packs with baby😁</p>
+        </div>
+        <div class="price">Get EX</div>
+      </div>
+      <div class="menu-box" data-name="PoP up store" data-desc="photo booth, merch and statues" data-price="stich">
+        <div class="item-text">
+          <strong>PoP up store</strong>
+          <p>photo booth, merch and statues</p>
+        </div>
+        <div class="price">stich</div>
+      </div>
+      <div class="menu-box" data-name="Vivo city rooftop" data-desc="Close to the end of the day lets go to the rooftop to chill" data-price="Roof next to Rainforest cafe">
+        <div class="item-text">
+          <strong>Vivo city rooftop</strong>
+          <p>Close to the end of the day lets go to the rooftop to chill</p>
+        </div>
+        <div class="price">Roof next to Rainforest cafe</div>
+      </div>
+      <div class="menu-box" data-name="Lotte mart" data-desc="see korean food" data-price="Fair price">
+        <div class="item-text">
+          <strong>Lotte mart</strong>
+          <p>see korean food</p>
+        </div>
+        <div class="price">Fair price</div>
+      </div>
+      <div class="menu-box" data-name="JD store" data-desc="DISCOUNTS" data-price="near cinema">
+        <div class="item-text">
+          <strong>JD store</strong>
+          <p>DISCOUNTS</p>
+        </div>
+        <div class="price">near cinema</div>
+      </div>
     </div>
-    <div class="price">Website, gifts</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Picnic food</strong>
-      <p>Picking out picnic food</p>
-    </div>
-    <div class="price">sushi, chips, drinks, old chang kee, potato corner</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Beach activities</strong>
-      <p>Frisbee,Enjoy the scenery, Pictures and more</p>
-    </div>
-    <div class="price">sun water sand wind</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Pokemon pack</strong>
-      <p>Bao Bao wants to open his first ever pokemon packs with baby😁</p>
-    </div>
-    <div class="price">Get EX</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>PoP up store</strong>
-      <p>photo booth, merch and statues</p>
-    </div>
-    <div class="price">stich</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Vivo city rooftop</strong>
-      <p>Close to the end of the day lets go to the rooftop to chill</p>
-    </div>
-    <div class="price">Roof next to Rainforest cafe</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Lotte mart</strong>
-      <p>see korean food</p>
-    </div>
-    <div class="price">Fair price</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>JD store</strong>
-      <p>DISCOUNTS</p>
-    </div>
-    <div class="price">near cinema</div>
-  </div>
-</div>
 
-<!-- Desserts Section -->
-<div class="tab-section" id="desserts">
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Baby</strong>
-      <p>I can't stop thinking about you</p>
+    <div class="tab-section" id="desserts">
+      <div class="menu-box" data-name="Baby" data-desc="I can't stop thinking about you">
+        <div class="item-text">
+          <strong>Baby</strong>
+          <p>I can't stop thinking about you</p>
+        </div>
+      </div>
+      <div class="menu-box" data-name="Princess" data-desc="I am the luckiest guy to have found you">
+        <div class="item-text">
+          <strong>Princess</strong>
+          <p>I am the luckiest guy to have found you</p>
+        </div>
+      </div>
+      <div class="menu-box" data-name="Cutie Patootie" data-desc="Holding your hand feels like holding the world">
+        <div class="item-text">
+          <strong>Cutie Patootie</strong>
+          <p>Holding your hand feels like holding the world</p>
+        </div>
+      </div>
+      <div class="menu-box" data-name="Cutie Pie" data-desc="Loving you is the best feeling ever">
+        <div class="item-text">
+          <strong>Cutie Pie</strong>
+          <p>Loving you is the best feeling ever</p>
+        </div>
+      </div>
+      <div class="menu-box" data-name="Bao Bao" data-desc="you are my perfect view">
+        <div class="item-text">
+          <strong>Bao Bao</strong>
+          <p>you are my perfect view</p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Princess</strong>
-      <p>I am the luckiest guy to have found you</p>
-    </div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Cutie Patootie</strong>
-      <p>Holding your hand feels like holding the world</p>
-    </div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Cutie Pie</strong>
-      <p>Loving you is the best feeling ever</p>
-    </div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Bao Bao</strong>
-      <p>you are my perfect view</p>
-    </div>
-  </div>
-</div>
 
-<!-- Drinks Section -->
-<div class="tab-section" id="drinks">
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Beauty world western</strong>
-      <p>western</p>
+    <div class="tab-section" id="drinks">
+      <div class="menu-box" data-name="Beauty world western" data-desc="western" data-price="basement">
+        <div class="item-text">
+          <strong>Beauty world western</strong>
+          <p>western</p>
+        </div>
+        <div class="price">basement</div>
+      </div>
+      <div class="menu-box" data-name="Beauty world korean" data-desc="Korean" data-price="basement">
+        <div class="item-text">
+          <strong>Beauty world korean</strong>
+          <p>Korean</p>
+        </div>
+        <div class="price">basement</div>
+      </div>
+      <div class="menu-box" data-name="GyoGyo" data-desc="Japanese dons and soups" data-price="#02-48">
+        <div class="item-text">
+          <strong>GyoGyo</strong>
+          <p>Japanese dons and soups</p>
+        </div>
+        <div class="price">#02-48</div>
+      </div>
+      <div class="menu-box" data-name="Rainforest cafe" data-desc="Pasta and pastries and cats" data-price="#03-02">
+        <div class="item-text">
+          <strong>Rainforest cafe</strong>
+          <p>Pasta and pastries and cats</p>
+        </div>
+        <div class="price">#03-02</div>
+      </div>
+      <div class="menu-box" data-name="jjigae jjigae" data-desc="korean one for one" data-price="beside ya kun">
+        <div class="item-text">
+          <strong>jjigae jjigae</strong>
+          <p>korean one for one</p>
+        </div>
+        <div class="price">beside ya kun</div>
+      </div>
+      <div class="menu-box" data-name="ma ma mia cafe" data-desc="pastas" data-price="#01-116">
+        <div class="item-text">
+          <strong>ma ma mia cafe</strong>
+          <p>pastas</p>
+        </div>
+        <div class="price">#01-116</div>
+      </div>
+      <div class="menu-box" data-name="Shake shack" data-desc="Burgers" data-price="siloso beach or #01-163">
+        <div class="item-text">
+          <strong>Shake shack</strong>
+          <p>Burgers</p>
+        </div>
+        <div class="price">siloso beach or #01-163</div>
+      </div>
+      <div class="menu-box" data-name="Rainforest cafe" data-desc="Pasta and pastries and cats" data-price="#03-02">
+        <div class="item-text">
+          <strong>Rainforest cafe</strong>
+          <p>Pasta and pastries and cats</p>
+        </div>
+        <div class="price">#03-02</div>
+      </div>
+      <div class="menu-box" data-name="Whatever you feeling" data-desc="To your hearts desire" data-price="Baby cravings">
+        <div class="item-text">
+          <strong>Whatever you feeling</strong>
+          <p>To your hearts desire</p>
+        </div>
+        <div class="price">Baby cravings</div>
+      </div>
     </div>
-    <div class="price">basement</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Beauty world korean</strong>
-      <p>Korean</p>
-    </div>
-    <div class="price">basement</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>GyoGyo</strong>
-      <p>Japanese dons and soups</p>
-    </div>
-    <div class="price">#02-48</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Rainforest cafe</strong>
-      <p>Pasta and pastries and cats</p>
-    </div>
-    <div class="price">#03-02</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>jjigae jjigae</strong>
-      <p>korean one for one</p>
-    </div>
-    <div class="price">beside ya kun</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>ma ma mia cafe</strong>
-      <p>pastas</p>
-    </div>
-    <div class="price">#01-116</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Shake shack</strong>
-      <p>Burgers</p>
-    </div>
-    <div class="price">siloso beach or #01-163</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Rainforest cafe</strong>
-      <p>Pasta and pastries and cats</p>
-    </div>
-    <div class="price">#03-02</div>
-  </div>
-  <div class="menu-box">
-    <div class="item-text">
-      <strong>Whatever you feeling</strong>
-      <p>To your hearts desire</p>
-    </div>
-    <div class="price">Baby cravings</div>
-  </div>
-</div>
 
+  </div>
+
+  <!-- Receipt / Order Summary -->
+  <div class="order-summary">
+    <h3>Your Selected Activities</h3>
+    <ul id="selectedItems">
+      <li>No items selected</li>
+    </ul>
   </div>
 </section>
 
-
 <style>
-.tab-menu {
-  position: relative;
-  padding-left: 150px;
-  background: #fff0f5;
-  padding-bottom: 400px;
-  border-radius: 12px;
-  max-width: 7000px;
-  margin: auto;
-  overflow-x: hidden;
+  
+  .order-summary {
+  margin-top: 30px;
+  border-top: 2px solid #ff416c;
+  padding-top: 15px;
+  max-width: 400px;      /* smaller width */
+  margin-left: auto;     /* center horizontally */
+  margin-right: auto;    /* center horizontally */
 }
 
-.waiter-image {
-  position: absolute;
-  top: 145px;
-  left: -100%;
-  width: 800px; /* 10x size */
-  height: auto;
-  transition: left 1s ease;
-  z-index: 2;
-}
 
-.waiter-slide-in {
-  left: 200px;
-}
+  .order-summary h3 {
+    color: #ff416c;
+  }
 
-h2 {
-  margin: 0;
-  padding: 20px 0 10px;
-  text-align: center;
-}
+  #selectedItems {
+    list-style: none;
+    padding-left: 0;
+  }
 
-.tab-buttons {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.tab-button {
-  background-color: #fbe3e8;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.tab-button:hover,
-.tab-button.active {
-  background-color: #f7cdd8;
-}
-
-.tab-content {
-  padding: 0 20px;
-}
-
-.tab-section {
-  display: none;
-}
-
-.tab-section.active {
-  display: block;
-}
-
-.menu-box {
-  display: flex;
-  justify-content: space-between;
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.item-text p {
-  margin: 5px 0 0 0;
-  font-size: 0.95rem;
-}
-
-.price {
-  font-weight: bold;
-  color: #e74c3c;
-}
+  #selectedItems li {
+    background: #ffe6f0;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
 </style>
 
 <script>
-const tabButtons = document.querySelectorAll(".tab-button");
-const tabSections = document.querySelectorAll(".tab-section");
-const waiter = document.getElementById("waiterImage");
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab-button');
+  const tabSections = document.querySelectorAll('.tab-section');
 
-tabButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    // Update active tab button
-    tabButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active from all tabs and sections
+      tabs.forEach(t => t.classList.remove('active'));
+      tabSections.forEach(s => s.classList.remove('active'));
 
-    // Update tab section content
-    const target = btn.dataset.tab;
-    tabSections.forEach(section => {
-      section.classList.remove("active");
-      if (section.id === target) {
-        section.classList.add("active");
-      }
+      // Activate clicked tab and corresponding section
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
     });
-
-    // Slide Doraemon waiter in
-    waiter.classList.remove("waiter-slide-in");
-    void waiter.offsetWidth; // force reflow to restart animation
-    waiter.classList.add("waiter-slide-in");
   });
-});
+
+  // Selection and receipt logic
+  const menuBoxes = document.querySelectorAll('.menu-box');
+  const selectedItemsList = document.getElementById('selectedItems');
+
+  let selectedItems = [];
+
+  function renderSelectedItems() {
+    selectedItemsList.innerHTML = '';
+    if (selectedItems.length === 0) {
+      selectedItemsList.innerHTML = '<li>No items selected</li>';
+      return;
+    }
+    selectedItems.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.name} (${item.price ? item.price : 'No time/price'})`;
+      selectedItemsList.appendChild(li);
+    });
+  }
+
+  menuBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+      const name = box.dataset.name;
+      const price = box.dataset.price;
+      // Toggle selection
+      const index = selectedItems.findIndex(i => i.name === name);
+      if (index === -1) {
+        // Add selected
+        selectedItems.push({name, price});
+        box.classList.add('selected');
+      } else {
+        // Remove selected
+        selectedItems.splice(index, 1);
+        box.classList.remove('selected');
+      }
+      renderSelectedItems();
+    });
+  });
+
+  // Initial render
+  renderSelectedItems();
 </script>
 
+
+
+<!-- Add this to your HTML where you want the timer to appear -->
+<section class="time-tracker">
+  <h2>Our Love Timeline 💞</h2>
+  <div class="digital-clock">
+    <div class="time-unit">
+      <span id="years">00</span>
+      <div class="label">Years</div>
+    </div>
+    <div class="time-unit">
+      <span id="months">00</span>
+      <div class="label">Months</div>
+    </div>
+    <div class="time-unit">
+      <span id="days">00</span>
+      <div class="label">Days</div>
+    </div>
+    <div class="time-unit">
+      <span id="hours">00</span>
+      <div class="label">Hours</div>
+    </div>
+    <div class="time-unit">
+      <span id="minutes">00</span>
+      <div class="label">Minutes</div>
+    </div>
+    <div class="time-unit">
+      <span id="seconds">00</span>
+      <div class="label">Seconds</div>
+    </div>
+  </div>
+  <div class="anniversary-date">
+    Since May 31, 2024 at 9:53 PM
+  </div>
+</section>
 
     <script src="js/script.js"></script>
 </body>

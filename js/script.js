@@ -10,7 +10,6 @@ function toggleMusic() {
         toggleBtn.textContent = '♫ Play Our Song';
     } else {
         bgMusic.play().catch(e => {
-            // Handle autoplay restrictions
             toggleBtn.textContent = 'Click to Play';
             console.log("Audio playback prevented:", e);
         });
@@ -33,13 +32,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Initialize - check if user has interacted before playing music
 document.addEventListener('click', function() {
     if (!isPlaying && bgMusic.paused) {
-        // User has interacted, we can now play music when they click play
         console.log("Page interacted with, music can now play");
     }
 }, { once: true });
 
-// Draggable Papers Functionality
+// Draggable Papers with collision detection (single global mousemove listener)
 let highestZ = 1;
+let activePaper = null;
 
 class Paper {
   constructor() {
@@ -53,91 +52,146 @@ class Paper {
     this.velX = 0;
     this.velY = 0;
     this.rotation = Math.random() * 30 - 15;
-    this.currentPaperX = Math.random() * window.innerWidth - 100;
-    this.currentPaperY = Math.random() * window.innerHeight - 100;
+    this.currentPaperX = Math.random() * (window.innerWidth - 200);
+    this.currentPaperY = Math.random() * (window.innerHeight - 200);
     this.rotating = false;
+    this.element = null;
+    this.checkScheduled = false;
   }
 
   init(paper) {
-    paper.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
-
-    document.addEventListener('mousemove', (e) => {
-      if(!this.rotating) {
-        this.mouseX = e.clientX;
-        this.mouseY = e.clientY;
-        this.velX = this.mouseX - this.prevMouseX;
-        this.velY = this.mouseY - this.prevMouseY;
-      }
-
-      const dirX = e.clientX - this.mouseTouchX;
-      const dirY = e.clientY - this.mouseTouchY;
-      const dirLength = Math.sqrt(dirX*dirX+dirY*dirY);
-      const dirNormalizedX = dirX / dirLength;
-      const dirNormalizedY = dirY / dirLength;
-      const angle = Math.atan2(dirNormalizedY, dirNormalizedX);
-      let degrees = 180 * angle / Math.PI;
-      degrees = (360 + Math.round(degrees)) % 360;
-
-      if(this.rotating) {
-        this.rotation = degrees;
-      }
-
-      if(this.holdingPaper) {
-        if(!this.rotating) {
-          this.currentPaperX += this.velX;
-          this.currentPaperY += this.velY;
-        }
-        this.prevMouseX = this.mouseX;
-        this.prevMouseY = this.mouseY;
-        paper.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
-      }
-    });
+    this.element = paper;
+    paper.style.position = 'absolute';
+    paper.style.willChange = 'transform';
+    this.updatePosition();
 
     paper.addEventListener('mousedown', (e) => {
-      if(this.holdingPaper) return;
-      this.holdingPaper = true;
-      paper.style.zIndex = highestZ;
-      highestZ += 1;
-      
-      if(e.button === 0) {
-        this.mouseTouchX = this.mouseX;
-        this.mouseTouchY = this.mouseY;
-        this.prevMouseX = this.mouseX;
-        this.prevMouseY = this.mouseY;
-      }
-      if(e.button === 2) {
-        this.rotating = true;
-      }
-    });
-
-    window.addEventListener('mouseup', () => {
-      this.holdingPaper = false;
-      this.rotating = false;
-    });
-
-    // Prevent context menu on right click
-    paper.addEventListener('contextmenu', (e) => {
       e.preventDefault();
+      activePaper = this;
+      this.holdingPaper = true;
+      paper.style.zIndex = highestZ++;
+
+      this.mouseTouchX = e.clientX;
+      this.mouseTouchY = e.clientY;
+      this.prevMouseX = e.clientX;
+      this.prevMouseY = e.clientY;
+
+      this.rotating = e.button === 2;
+    });
+
+    paper.addEventListener('contextmenu', (e) => e.preventDefault());
+  }
+
+  updatePosition() {
+    this.element.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
+  }
+
+  getBoundingRect() {
+    return this.element.getBoundingClientRect();
+  }
+
+  isCollidingWith(otherPaper) {
+    const aRect = this.getBoundingRect();
+    const bRect = otherPaper.getBoundingRect();
+
+    return !(
+      aRect.right < bRect.left ||
+      aRect.left > bRect.right ||
+      aRect.bottom < bRect.top ||
+      aRect.top > bRect.bottom
+    );
+  }
+
+  pushApartFrom(otherPaper) {
+    const aRect = this.getBoundingRect();
+    const bRect = otherPaper.getBoundingRect();
+
+    const aCenterX = aRect.left + aRect.width / 2;
+    const aCenterY = aRect.top + aRect.height / 2;
+    const bCenterX = bRect.left + bRect.width / 2;
+    const bCenterY = bRect.top + bRect.height / 2;
+
+    let dx = aCenterX - bCenterX;
+    let dy = aCenterY - bCenterY;
+
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const minDist = (aRect.width + bRect.width) / 2;
+
+    if (dist < minDist) {
+      const overlap = minDist - dist;
+
+      dx /= dist;
+      dy /= dist;
+
+      this.currentPaperX += dx * overlap / 2;
+      this.currentPaperY += dy * overlap / 2;
+      otherPaper.currentPaperX -= dx * overlap / 2;
+      otherPaper.currentPaperY -= dy * overlap / 2;
+
+      this.updatePosition();
+      otherPaper.updatePosition();
+    }
+  }
+
+  handleCollisions() {
+    window.papersArray.forEach(other => {
+      if (other !== this && this.isCollidingWith(other)) {
+        this.pushApartFrom(other);
+      }
     });
   }
 }
 
-// Initialize all papers
+// Global mousemove and mouseup handlers
+document.addEventListener('mousemove', (e) => {
+  if (!activePaper || !activePaper.holdingPaper) return;
+
+  e.preventDefault();
+
+  activePaper.mouseX = e.clientX;
+  activePaper.mouseY = e.clientY;
+  activePaper.velX = activePaper.mouseX - activePaper.prevMouseX;
+  activePaper.velY = activePaper.mouseY - activePaper.prevMouseY;
+
+  if (!activePaper.rotating) {
+    activePaper.currentPaperX += activePaper.velX;
+    activePaper.currentPaperY += activePaper.velY;
+  }
+
+  activePaper.prevMouseX = activePaper.mouseX;
+  activePaper.prevMouseY = activePaper.mouseY;
+
+  activePaper.updatePosition();
+
+  if (!activePaper.checkScheduled) {
+    activePaper.checkScheduled = true;
+    requestAnimationFrame(() => {
+      activePaper.checkScheduled = false;
+      activePaper.handleCollisions();
+    });
+  }
+});
+
+window.addEventListener('mouseup', () => {
+  if (activePaper) {
+    activePaper.holdingPaper = false;
+    activePaper.rotating = false;
+    activePaper = null;
+  }
+});
+
+// Initialize all papers globally
 document.addEventListener('DOMContentLoaded', () => {
   const papers = Array.from(document.querySelectorAll('.paper'));
+  window.papersArray = [];
   papers.forEach(paper => {
     const p = new Paper();
     p.init(paper);
+    window.papersArray.push(p);
   });
-  
-  // Initialize music player interaction
-  document.addEventListener('click', function() {
-    if (!isPlaying && bgMusic.paused) {
-      console.log("Page interacted with, music can now play");
-    }
-  }, { once: true });
 });
 
+// Emoji animation code
 var container = document.getElementById('animate');
 var emoji = ['💖', '💃','💕⃝','🧸','😊','💌','❤️','🧡','💛','💚','💙','💜','💖', '💃','💕⃝','🧸','😊','💌','❤️','🧡','💛','💚','💙','💜'];
 var circles = [];
@@ -152,8 +206,6 @@ for (var i = 0; i < 15; i++) {
   addCircle(i * 150, [10 - 600, -300], emoji[Math.floor(Math.random() * emoji.length)]);
   addCircle(i * 150, [10 + 600, 300], emoji[Math.floor(Math.random() * emoji.length)]);
 }
-
-
 
 function addCircle(delay, range, color) {
   setTimeout(function() {
@@ -173,7 +225,6 @@ function Circle(x, y, c, v, range) {
   this.v = v;
   this.range = range;
   this.element = document.createElement('span');
-  /*this.element.style.display = 'block';*/
   this.element.style.opacity = 0;
   this.element.style.position = 'absolute';
   this.element.style.fontSize = '26px';
@@ -203,3 +254,51 @@ function animate() {
 }
 
 animate();
+
+// Add this to your JavaScript
+function updateTimeTogether() {
+  // Your anniversary date - May 31, 2024 at 9:53 PM Singapore time
+  const anniversary = new Date('May 31, 2024 21:53:00 GMT+0800');
+  const now = new Date();
+  
+  // Calculate difference in milliseconds
+  const diff = now - anniversary;
+  
+  // Calculate years
+  const years = now.getFullYear() - anniversary.getFullYear();
+  
+  // Calculate months (adjusting for year difference)
+  let months = now.getMonth() - anniversary.getMonth();
+  if (months < 0 || (months === 0 && now.getDate() < anniversary.getDate())) {
+    months += 12;
+  }
+  
+  // Calculate days
+  const tempDate = new Date(anniversary);
+  tempDate.setFullYear(now.getFullYear());
+  tempDate.setMonth(anniversary.getMonth() + months);
+  
+  let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+  
+  // Calculate hours, minutes, seconds
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  // Update the display
+  document.getElementById('years').textContent = years.toString().padStart(2, '0');
+  document.getElementById('months').textContent = months.toString().padStart(2, '0');
+  document.getElementById('days').textContent = days.toString().padStart(2, '0');
+  document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+  document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+  document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+}
+
+// Update immediately
+updateTimeTogether();
+
+// Update every second
+setInterval(updateTimeTogether, 1000);
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', updateTimeTogether);
