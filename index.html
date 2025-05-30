@@ -1615,6 +1615,9 @@ const waiter = document.getElementById("waiterImage");
       // Activate clicked tab and corresponding section
       tab.classList.add('active');
       document.getElementById(tab.dataset.tab).classList.add('active');
+      waiter.classList.remove("waiter-slide-in");
+      void waiter.offsetWidth; // force reflow to restart animation
+      waiter.classList.add("waiter-slide-in");
     });
   });
 

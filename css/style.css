@@ -802,17 +802,18 @@ h1 {
 }
 
 .waiter-image {
-  position: absolute;
-  left: -200px; /* start off-screen */
-  top: 40px; /* distance from top of .tab-menu */
+  position: relative;
+  left: -2000px; /* start off-screen */
+  top: 500px; /* distance from top of .tab-menu */
   width: 150px;
   transition: left 1s ease-out;
   z-index: 10;
   pointer-events: none;
+  transform: scale(6);
 }
 
 .waiter-slide-in {
-  left: 20px; /* slides into view */
+  left: -450px; /* slides into view */
 }
 
 .carousel-arrow {
