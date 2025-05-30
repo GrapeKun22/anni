@@ -190,6 +190,8 @@
     animation: 
         letterExit 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards,
         letterZoom 0.6s 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+
+    z-index: 99;
 }
 
 /* GPU-accelerated kiss animation */
@@ -208,6 +210,8 @@
     animation: kissFade 1.5s ease;
     will-change: transform, opacity;
     backface-visibility: hidden;
+    z-index: 999;
+    scale:calc(2.5)
 }
 
 @keyframes kissFade {
@@ -767,7 +771,160 @@ createHearts();
         </div>
     </section>
 
-   <!-- Tabbed Menu Section -->
+    <!-- Future Section -->
+<section class="carousel-section">
+  <div class="carousel-container">
+    <!-- Left Arrow -->
+    <button class="carousel-arrow left-arrow" id="prevBtn"
+        data-normal="images/xbleftnormal.png"
+        data-active="images/xbleftactive.png">
+        <img src="images/xbleftnormal.png" alt="Left">
+    </button>
+
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <img src="/images/may.jpg" alt="Image 1">
+        <p class="caption">May 1st</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/june.jpg" alt="Image 2">
+        <p class="caption">May 2nd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/july.jpg" alt="Image 3">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/aug.jpg" alt="Image 4">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/sep.jpg" alt="Image 5">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/oct.jpg" alt="Image 6">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/nov.jpg" alt="Image 7">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/dec.jpg" alt="Image 8">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/jan.jpg" alt="Image 9">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/feb.jpg" alt="Image 10">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/march.jpg" alt="Image 11">
+        <p class="caption">May 3rd</p>
+      </div>
+      <div class="carousel-slide">
+        <img src="/images/april.jpg" alt="Image 12">
+        <p class="caption">May 3rd</p>
+      </div>
+    </div>
+
+    <!-- Right Arrow -->
+    <button class="carousel-arrow right-arrow" id="nextBtn"
+        data-normal="images/xbrightnormal.png"
+        data-active="images/xbrightactive.png">
+        <img src="images/xbrightnormal.png" alt="Right">
+    </button>
+  </div>
+</section>
+
+
+<style>
+.carousel-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fdfdfd;
+  padding: 40px 0; padding-top: 300px;
+}
+
+.carousel-container {
+  width: 300px;
+  overflow: hidden;
+  position: relative; /* required to anchor absolute children */
+  z-index: 1; /* make sure it's not behind something else */
+
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  text-align: center;
+}
+
+.carousel-arrow {
+  z-index: 10; /* higher than the images */
+}
+
+.carousel-slide img {
+  width: 300px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.caption {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+</style>
+
+<script>
+const track = document.getElementById('carouselTrack');
+const slides = document.querySelectorAll('.carousel-slide');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let currentIndex = 0;
+
+function updateCarousel() {
+  track.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+function handleArrowClick(button, direction) {
+  const img = button.querySelector('img');
+  const normalSrc = button.dataset.normal;
+  const activeSrc = button.dataset.active;
+
+  img.src = activeSrc;
+
+  if (direction === 'prev' && currentIndex > 0) {
+    currentIndex--;
+  } else if (direction === 'next' && currentIndex < slides.length - 1) {
+    currentIndex++;
+  }
+  updateCarousel();
+
+  setTimeout(() => {
+    img.src = normalSrc;
+  }, 200); // revert to normal after 200ms
+}
+
+prevBtn.addEventListener('click', () => handleArrowClick(prevBtn, 'prev'));
+nextBtn.addEventListener('click', () => handleArrowClick(nextBtn, 'next'));
+
+</script>
+
+
+<!-- Tabbed Menu Section -->
 <section class="tab-menu">
   <img src="images/doraemonwaiter.png" alt="Waiter" class="waiter-image" id="waiterImage">
   <h2>Menu</h2>
