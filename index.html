@@ -20,7 +20,7 @@
     <!-- Music Player -->
 <section class="music-player">
   <button id="musicToggle" aria-label="Toggle music player">
-    <span>🎵 Play Our Song</span>
+    <span>🎵 Play</span>
     <svg class="arrow" width="16" height="16" viewBox="0 0 20 20">
       <polyline points="6 8 10 12 14 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
@@ -28,9 +28,9 @@
 
   <div id="musicDropdown" class="music-dropdown hidden">
     <ul id="playlist">
-      <li data-src="audio/song1.mp3" class="active">Song 1 - Chill Vibes</li>
-      <li data-src="audio/song2.mp3">Song 2 - Lo-Fi Beats</li>
-      <li data-src="audio/song3.mp3">Song 3 - Acoustic</li>
+      <li data-src="audio/song1.mp3" class="active">Song 1 - Jumping machine</li>
+      <li data-src="audio/song2.mp3">Song 2 - Lalalala</li>
+      <li data-src="audio/song3.mp3">Song 3 - Pretty baby</li>
     </ul>
 
     
@@ -515,7 +515,7 @@ let typingTimeout;
 let typewriterRunning = false;
 let isOpen = false;
 
-function typeWriterEffect(lines, elementId, delay = 0) {
+function typeWriterEffect(lines, elementId, delay = 30) {
     const el = document.getElementById(elementId);
     let line = 0, char = 0;
     el.innerHTML = "";
@@ -1024,51 +1024,64 @@ createHearts();
     <div class="carousel-track" id="carouselTrack">
       <div class="carousel-slide">
         <img src="/images/may.jpg" alt="Image 1">
-        <p class="caption">May 1st</p>
+        <p class="caption">Journey Begins</p>
+        <p>Making our Relationship Official!</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/june.jpg" alt="Image 2">
-        <p class="caption">May 2nd</p>
+        <p class="caption">7 June</p>
+         <p>First time at the beach together, many selfies, great view</p>
+         <p>relaxing moment</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/july.jpg" alt="Image 3">
-        <p class="caption">May 3rd</p>
+        <p class="caption">17 July</p>
+        <p>Us at Botanic garden for the first time, so mant plants and birds, you were really scared when it was getting dark HAHAHA</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/aug.jpg" alt="Image 4">
-        <p class="caption">May 3rd</p>
+        <p class="caption">9 August</p>
+        <p>First NDP together, So many things to see, so crowded, everybody very patriotic </p>
       </div>
       <div class="carousel-slide">
         <img src="/images/sep.jpg" alt="Image 5">
-        <p class="caption">May 3rd</p>
+        <p class="caption">5 September</p>
+        <p>Us at outside suntec talking about life and sharing each other problems, was a good talk and we walked all the way to MBS</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/oct.jpg" alt="Image 6">
-        <p class="caption">May 3rd</p>
+        <p class="caption">7 October</p>
+        <P>Us outside USS just chilling, we walked from Vivo to there, very chill walk</P>
       </div>
       <div class="carousel-slide">
         <img src="/images/nov.jpg" alt="Image 7">
-        <p class="caption">May 3rd</p>
+        <p class="caption">2 November</p>
+        <p>Building Doraemon at your house, had fun building with you. We must do it again pwease</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/dec.jpg" alt="Image 8">
-        <p class="caption">May 3rd</p>
+        <p class="caption">5 December</p>
+        <p>Christmas! jolly time of the year, we enjoyed the christmas lights at orchard, you even buy me spiderman present, thank you baby.</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/jan.jpg" alt="Image 9">
-        <p class="caption">May 3rd</p>
+        <p class="caption">13 January</p>
+        <p>Start to a brand new year, we went to Haji lane to take many pics in our cute matching outfits</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/feb.jpg" alt="Image 10">
-        <p class="caption">May 3rd</p>
+        <p class="caption">14 Febuary</p>
+        <p>Valentines day, lovely date with you, get to take pics using your polaroid, aesthetic shots were taken heh</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/march.jpg" alt="Image 11">
-        <p class="caption">May 3rd</p>
+        <p class="caption">4 March</p>
+        <p>USS timeee, minion land was funnn so goofy, you help me conquer mummy, next time, cyclone!</p>
       </div>
       <div class="carousel-slide">
         <img src="/images/april.jpg" alt="Image 12">
-        <p class="caption">May 3rd</p>
+        <p class="caption">9 April</p>
+        <p>Your Birthday, im so grateful to have you, i wish you the best of health and stay strong baby you are the best.</p>
       </div>
     </div>
 
@@ -1221,55 +1234,122 @@ h3.fixed {
   justify-content: center;
   align-items: center;
   background: #fdfdfd;
-  padding: 40px 0; padding-top: 300px;
+  padding: 300px 0 40px;
+  perspective: 1000px;
+  position: relative;
 }
 
 .carousel-container {
-  width: 300px;
-  overflow: hidden;
-  position: relative; /* required to anchor absolute children */
-  z-index: 1; /* make sure it's not behind something else */
-
+  width: 900px;
+  height: 500px;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .carousel-slide {
-  min-width: 100%;
+  position: absolute;
+  width: 300px;
+  height: 450px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
   text-align: center;
-}
-
-.carousel-arrow {
-  z-index: 10; /* higher than the images */
+  z-index: 1;
 }
 
 .carousel-slide img {
-  width: 300px;
-  height: 450px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-.caption {
-  margin-top: 10px;
-  font-size: 1rem;
-  color: #333;
+.carousel-slide.active {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.1);
+  z-index: 3;
 }
+
+.carousel-slide.prev {
+  opacity: 0.5;
+  transform: translateX(-160%) scale(0.9) rotateY(20deg);
+  z-index: 2;
+}
+
+.carousel-slide.next {
+  opacity: 0.5;
+  transform: translateX(60%) scale(0.9) rotateY(-20deg);
+  z-index: 2;
+}
+
+/* Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999 !important; /* Force it above everything */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.carousel-arrow img {
+  width: 50px;
+  height: auto;
+  pointer-events: none; /* So clicks pass through image to the button */
+}
+
+.left-arrow {
+  left: -70px; /* Move outside slide */
+}
+
+.right-arrow {
+  right: -70px; /* Move outside slide */
+}
+
+/* Optional: prevent slides from capturing pointer events */
+.carousel-slide {
+  pointer-events: none;
+}
+
+.carousel-slide.active {
+  pointer-events: auto; /* Only allow clicking active slide if needed */
+}
+
+
 </style>
 
 <script>
-const track = document.getElementById('carouselTrack');
 const slides = document.querySelectorAll('.carousel-slide');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 let currentIndex = 0;
 
 function updateCarousel() {
-  track.style.transform = `translateX(-${currentIndex * 100}%)`;
+  slides.forEach((slide, index) => {
+    slide.classList.remove('prev', 'active', 'next');
+
+    if (index === currentIndex - 1) {
+      slide.classList.add('prev');
+    } else if (index === currentIndex) {
+      slide.classList.add('active');
+    } else if (index === currentIndex + 1) {
+      slide.classList.add('next');
+    }
+  });
 }
 
 function handleArrowClick(button, direction) {
@@ -1284,15 +1364,19 @@ function handleArrowClick(button, direction) {
   } else if (direction === 'next' && currentIndex < slides.length - 1) {
     currentIndex++;
   }
+
   updateCarousel();
 
   setTimeout(() => {
     img.src = normalSrc;
-  }, 200); // revert to normal after 200ms
+  }, 200);
 }
 
 prevBtn.addEventListener('click', () => handleArrowClick(prevBtn, 'prev'));
 nextBtn.addEventListener('click', () => handleArrowClick(nextBtn, 'next'));
+
+// Initial display
+updateCarousel();
 
 </script>
 
@@ -1661,13 +1745,53 @@ const waiter = document.getElementById("waiterImage");
 
   // Initial render
   renderSelectedItems();
+
+// Polyfill smooth scroll for all browsers
+  (function () {
+    function smoothScroll(targetEl, duration) {
+      var target = document.querySelector(targetEl);
+      var targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+      var startPosition = window.pageYOffset;
+      var distance = targetPosition - startPosition;
+      var startTime = null;
+
+      function animation(currentTime) {
+        if (startTime === null) startTime = currentTime;
+        var timeElapsed = currentTime - startTime;
+        var run = ease(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) requestAnimationFrame(animation);
+      }
+
+      // ease function (easeInOutQuad)
+      function ease(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return (c / 2) * t * t + b;
+        t--;
+        return (-c / 2) * (t * (t - 2) - 1) + b;
+      }
+
+      requestAnimationFrame(animation);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        var href = this.getAttribute('href');
+        if (document.querySelector(href)) {
+          smoothScroll(href, 800);
+        }
+      });
+    });
+  })();
+
 </script>
 
 
 
 <!-- Add this to your HTML where you want the timer to appear -->
 <section class="time-tracker">
-  <h2>Our Love Timeline 💞</h2>
+  <h2>Our Time Tracker 💞</h2>
   <div class="digital-clock">
     <div class="time-unit">
       <span id="years">00</span>

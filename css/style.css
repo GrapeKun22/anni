@@ -1,4 +1,8 @@
 /* Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
@@ -923,3 +927,4 @@ h1 {
     font-size: 0.8rem;
   }
 }
+
