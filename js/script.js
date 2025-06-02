@@ -7,7 +7,6 @@ const musicDropdown = document.getElementById('musicDropdown');
 const playIcon = document.getElementById('playIcon');
 const pauseIcon = document.getElementById('pauseIcon');
 
-
 let currentTrackIndex = 0;
 let isPlaying = false;
 
@@ -61,7 +60,6 @@ function updatePlayPauseButton() {
   }
 }
 
-
 // Playlist item click handler
 playlist.addEventListener('click', (e) => {
   if (e.target.tagName === 'LI') {
@@ -82,7 +80,7 @@ audio.addEventListener('ended', () => {
 // Optional: Initialize play/pause button text
 updatePlayPauseButton();
 
-// Draggable Papers with collision detection (single global mousemove listener)
+// Simplified Draggable Papers without collision detection
 let highestZ = 1;
 let activePaper = null;
 
@@ -102,7 +100,6 @@ class Paper {
     this.currentPaperY = Math.random() * (window.innerHeight - 200);
     this.rotating = false;
     this.element = null;
-    this.checkScheduled = false;
   }
 
   init(paper) {
@@ -131,61 +128,6 @@ class Paper {
   updatePosition() {
     this.element.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
   }
-
-  getBoundingRect() {
-    return this.element.getBoundingClientRect();
-  }
-
-  isCollidingWith(otherPaper) {
-    const aRect = this.getBoundingRect();
-    const bRect = otherPaper.getBoundingRect();
-
-    return !(
-      aRect.right < bRect.left ||
-      aRect.left > bRect.right ||
-      aRect.bottom < bRect.top ||
-      aRect.top > bRect.bottom
-    );
-  }
-
-  pushApartFrom(otherPaper) {
-    const aRect = this.getBoundingRect();
-    const bRect = otherPaper.getBoundingRect();
-
-    const aCenterX = aRect.left + aRect.width / 2;
-    const aCenterY = aRect.top + aRect.height / 2;
-    const bCenterX = bRect.left + bRect.width / 2;
-    const bCenterY = bRect.top + bRect.height / 2;
-
-    let dx = aCenterX - bCenterX;
-    let dy = aCenterY - bCenterY;
-
-    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    const minDist = (aRect.width + bRect.width) / 2;
-
-    if (dist < minDist) {
-      const overlap = minDist - dist;
-
-      dx /= dist;
-      dy /= dist;
-
-      this.currentPaperX += dx * overlap / 2;
-      this.currentPaperY += dy * overlap / 2;
-      otherPaper.currentPaperX -= dx * overlap / 2;
-      otherPaper.currentPaperY -= dy * overlap / 2;
-
-      this.updatePosition();
-      otherPaper.updatePosition();
-    }
-  }
-
-  handleCollisions() {
-    window.papersArray.forEach(other => {
-      if (other !== this && this.isCollidingWith(other)) {
-        this.pushApartFrom(other);
-      }
-    });
-  }
 }
 
 // Global mousemove and mouseup handlers
@@ -202,20 +144,18 @@ document.addEventListener('mousemove', (e) => {
   if (!activePaper.rotating) {
     activePaper.currentPaperX += activePaper.velX;
     activePaper.currentPaperY += activePaper.velY;
+  } else {
+    // Calculate rotation based on mouse position
+    const centerX = activePaper.currentPaperX + activePaper.element.offsetWidth / 2;
+    const centerY = activePaper.currentPaperY + activePaper.element.offsetHeight / 2;
+    const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+    activePaper.rotation = angle;
   }
 
   activePaper.prevMouseX = activePaper.mouseX;
   activePaper.prevMouseY = activePaper.mouseY;
 
   activePaper.updatePosition();
-
-  if (!activePaper.checkScheduled) {
-    activePaper.checkScheduled = true;
-    requestAnimationFrame(() => {
-      activePaper.checkScheduled = false;
-      activePaper.handleCollisions();
-    });
-  }
 });
 
 window.addEventListener('mouseup', () => {
@@ -226,14 +166,12 @@ window.addEventListener('mouseup', () => {
   }
 });
 
-// Initialize all papers globally
+// Initialize all papers
 document.addEventListener('DOMContentLoaded', () => {
   const papers = Array.from(document.querySelectorAll('.paper'));
-  window.papersArray = [];
   papers.forEach(paper => {
     const p = new Paper();
     p.init(paper);
-    window.papersArray.push(p);
   });
 });
 
@@ -301,10 +239,10 @@ function animate() {
 
 animate();
 
-// Add this to your JavaScript
+// Time tracker for your relationship
 function updateTimeTogether() {
-  // Your anniversary date - May 31, 2024 at 9:53 PM Singapore time
-  const anniversary = new Date('May 31, 2024 21:53:00 GMT+0800');
+  // Your anniversary date - May 31, 2023 at 9:53 PM Singapore time
+  const anniversary = new Date('May 31, 2023 21:53:00 GMT+0800');
   const now = new Date();
   
   // Calculate difference in milliseconds
